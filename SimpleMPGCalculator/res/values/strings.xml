@@ -4,5 +4,13 @@
     <string name="app_name">SimpleMPGCalculator</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="tankmiles">274</string>
+    <string name="enter_miles">Trip Distance:</string>
+    <string name="gallons">10.246</string>
+    <string name="entergallons">Gallons Purchased:</string>
+    <string name="enterprice">Price Per Gallon(optional):</string>
+    <string name="fuelprice">3.19</string>
+    <string name="reset">Reset</string>
+    <string name="save">Save Results</string>
 
 </resources>

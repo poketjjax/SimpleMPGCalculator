@@ -8,9 +8,96 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".EnterMileage" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-
+    
+	    <EditText 
+	        android:id="@+id/tankmiles"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingLeft="14dp"
+	        android:layout_marginLeft="5dp"
+	        android:layout_alignParentRight="true"
+	        android:layout_marginRight="50dp"
+	        android:layout_marginTop="30dp"
+	        android:hint="@string/tankmiles"
+	        android:focusable="true"
+    		android:focusableInTouchMode="true"
+    		android:inputType="numberDecimal"/>
+	    <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="7pt"
+	        android:layout_toLeftOf="@id/tankmiles"
+	        android:layout_alignBaseline="@id/tankmiles"
+	        android:text="@string/enter_miles" />
+	    
+	   	<EditText 
+	        android:id="@+id/gallons"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingLeft="14dp"
+	        android:layout_marginLeft="5dp"
+	        android:layout_alignParentRight="true"
+	        android:layout_marginRight="50dp"
+	        android:layout_marginTop="15dp"
+	        android:hint="@string/gallons"
+	        android:focusable="true"
+	        android:layout_below="@id/tankmiles"
+    		android:focusableInTouchMode="true"
+    		android:inputType="numberDecimal" />
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="7pt"
+	        android:layout_toLeftOf="@id/gallons"
+	        android:layout_alignBaseline="@id/gallons"
+	        android:text="@string/entergallons" />
+	    
+	    <EditText 
+	        android:id="@+id/fuelprice"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingLeft="14dp"
+	        android:layout_marginLeft="5dp"
+	        android:layout_alignParentRight="true"
+	        android:layout_marginRight="50dp"
+	        android:layout_marginTop="15dp"
+	        android:hint="@string/fuelprice"
+	        android:focusable="true"
+	        android:layout_below="@id/gallons"
+    		android:focusableInTouchMode="true"
+    		android:inputType="numberDecimal" />
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="7pt"
+	        android:layout_toLeftOf="@id/fuelprice"
+	        android:layout_alignBaseline="@id/fuelprice"
+	        android:text="@string/enterprice" />
+	    
+		<Button 
+		    android:id="@+id/reset"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+			android:text="@string/reset"
+			android:paddingLeft="35dp"
+			android:paddingRight="35dp"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentLeft="true"
+			android:layout_marginLeft="40dp"
+			android:layout_marginBottom="20dp"
+		    />    
+		    
+		<Button 
+		    android:id="@+id/saveResults"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+			android:text="@string/save"
+			android:paddingLeft="25dp"
+			android:paddingRight="25dp"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentRight="true"
+			android:layout_marginRight="20dp"
+			android:layout_marginBottom="20dp"
+		    />  
+	    
 </RelativeLayout>
