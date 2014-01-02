@@ -74,6 +74,30 @@
 	        android:layout_alignBaseline="@id/fuelprice"
 	        android:text="@string/enterprice" />
 	    
+	    
+	   <TextView 
+	        android:id="@+id/mpg"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="15pt"
+	        android:textColor="#059400"
+	        android:layout_centerHorizontal="true"
+	        android:layout_below="@id/fuelprice"
+	        android:layout_marginTop="25dp"
+	        />
+	    <TextView 
+	        android:id="@+id/mpgtext"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="12pt"
+	        android:layout_marginRight="5dp"
+			android:layout_toLeftOf="@id/mpg"
+			android:layout_alignBottom="@id/mpg"
+	        android:layout_below="@id/fuelprice"
+	        android:layout_marginTop="31dp"
+	        android:text="@string/mpg"
+	        />
+	    
 		<Button 
 		    android:id="@+id/reset"
 		    android:layout_width="wrap_content"

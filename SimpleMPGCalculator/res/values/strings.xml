@@ -12,5 +12,6 @@
     <string name="fuelprice">3.19</string>
     <string name="reset">Reset</string>
     <string name="save">Save Results</string>
+    <string name="mpg">MPG=</string>
 
 </resources>
