@@ -13,5 +13,7 @@
     <string name="reset">Reset</string>
     <string name="save">Save Results</string>
     <string name="mpg">MPG=</string>
+    <string name="show_price_title">Show the Fuel Price text field?</string>
+    <string name="show_price_summ">Uncheck this box to hide the Fuel Price field</string>
 
 </resources>

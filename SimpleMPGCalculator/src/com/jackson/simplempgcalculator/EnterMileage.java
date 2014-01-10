@@ -4,10 +4,13 @@ import java.text.NumberFormat;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.Service;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
@@ -69,8 +72,8 @@ public class EnterMileage extends Activity implements OnClickListener {
 		        if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
 		                (keyCode == KeyEvent.KEYCODE_ENTER))
 		        {
-		        	milesint = Integer.parseInt(miles.getText().toString());
-		        	gallonsint = Integer.parseInt(gallons.getText().toString());
+		        	milesint = Float.parseFloat(miles.getText().toString());
+		        	gallonsint = Float.parseFloat(gallons.getText().toString());
 		        	if(fuelprice.getText().toString().equalsIgnoreCase(""))
 		        	{
 		        		fuelpriceint = 0;
@@ -100,6 +103,22 @@ public class EnterMileage extends Activity implements OnClickListener {
 		getMenuInflater().inflate(R.menu.enter_mileage, menu);
 		return true;
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Create new fragment and transaction
+		Fragment newFragment = new preferences();
+		FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+		// Replace whatever is in the fragment_container view with this fragment,
+		// and add the transaction to the back stack
+		transaction.replace(android.R.id.content, newFragment);
+		transaction.addToBackStack(null);
+
+		// Commit the transaction
+		transaction.commit();
+	        return true;
+	        }
 	
 	@Override
 	public void onClick(View v) {
