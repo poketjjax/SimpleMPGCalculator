@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">SimpleMPGCalculator</string>
+    <string name="app_name">Simple MPG Calculator</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="tankmiles">274</string>
@@ -15,5 +15,6 @@
     <string name="mpg">MPG=</string>
     <string name="show_price_title">Show the Fuel Price text field?</string>
     <string name="show_price_summ">Uncheck this box to hide the Fuel Price field</string>
+    <string name="settings">Settings</string>
 
 </resources>

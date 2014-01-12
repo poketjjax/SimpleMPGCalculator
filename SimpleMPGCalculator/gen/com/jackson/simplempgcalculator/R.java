@@ -54,6 +54,7 @@ public final class R {
         public static final int mpg=0x7f06000b;
         public static final int reset=0x7f060009;
         public static final int save=0x7f06000a;
+        public static final int settings=0x7f06000e;
         public static final int show_price_summ=0x7f06000d;
         public static final int show_price_title=0x7f06000c;
         public static final int tankmiles=0x7f060003;

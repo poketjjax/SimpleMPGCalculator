@@ -3,8 +3,10 @@ package com.jackson.simplempgcalculator;
 import android.app.Activity;
 import android.app.Service;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -41,9 +43,21 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	}
 	
 	@Override
+	public void onResume() {
+	    super.onResume();
+	    // Set title
+	    getActivity().setTitle(R.string.app_name);
+
+	    SharedPreferences sharedPref = getActivity().getSharedPreferences("preferences.xml", getActivity().MODE_PRIVATE);
+	    boolean showFuelPrice = sharedPref.getBoolean("show_price", true);
+	    
+	    Log.e("result of checkbox=======", String.valueOf(showFuelPrice));
+	}
+	
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		Log.e("made it here =====", "yes");
+		
 		miles = (EditText) getView().findViewById(R.id.tankmiles);
 		gallons = (EditText) getView().findViewById(R.id.gallons);
 		fuelprice = (EditText) getView().findViewById(R.id.fuelprice);
