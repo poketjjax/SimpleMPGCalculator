@@ -5,6 +5,6 @@
         android:key="show_price"
         android:title="@string/show_price_title"
         android:summary="@string/show_price_summ"
-        android:defaultValue="true" />
+        android:defaultValue="false" />
         
 </PreferenceScreen>

@@ -1,7 +1,6 @@
 package com.jackson.simplempgcalculator;
 
 import android.app.Activity;
-import android.app.Service;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.Fragment;
@@ -28,6 +27,7 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	public EditText fuelprice;
 	public TextView mpg;
 	public TextView mpgtext;
+	public TextView fuelpricetxt;
 	private Button reset;
 	private Button submit;
 	public float milesint;
@@ -47,11 +47,13 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	    super.onResume();
 	    // Set title
 	    getActivity().setTitle(R.string.app_name);
-
-	    SharedPreferences sharedPref = getActivity().getSharedPreferences("preferences.xml", getActivity().MODE_PRIVATE);
-	    boolean showFuelPrice = sharedPref.getBoolean("show_price", true);
 	    
-	    Log.e("result of checkbox=======", String.valueOf(showFuelPrice));
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+	    boolean showFuelPrice = sharedPref.getBoolean("show_price", true);
+	    if(!showFuelPrice){
+	    	fuelprice.setVisibility(View.GONE);
+	    	fuelpricetxt.setVisibility(View.GONE);
+	    }
 	}
 	
 	@Override
@@ -63,6 +65,7 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 		fuelprice = (EditText) getView().findViewById(R.id.fuelprice);
 		mpg = (TextView) getView().findViewById(R.id.mpg);
 		mpgtext = (TextView) getView().findViewById(R.id.mpgtext);
+		fuelpricetxt = (TextView) getView().findViewById(R.id.fuelpricetext);
 		
 
 		//hide the mpg text until after it is calculated
