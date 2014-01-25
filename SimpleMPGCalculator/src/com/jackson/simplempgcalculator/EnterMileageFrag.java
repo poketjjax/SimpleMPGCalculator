@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EnterMileageFrag extends Fragment implements View.OnClickListener, View.OnKeyListener {
 
@@ -47,12 +49,17 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	    super.onResume();
 	    // Set title
 	    getActivity().setTitle(R.string.app_name);
-	    
+	    //create an instance of preferences to read in the values
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    boolean showFuelPrice = sharedPref.getBoolean("show_price", true);
+	    
+	    //hide the fuel price based on the settings checkbox. also set onkeylistener based on checkbox
 	    if(!showFuelPrice){
 	    	fuelprice.setVisibility(View.GONE);
 	    	fuelpricetxt.setVisibility(View.GONE);
+	    	gallons.setOnKeyListener(this);
+	    } else {
+	    	fuelprice.setOnKeyListener(this);
 	    }
 	}
 	
@@ -70,6 +77,8 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 
 		//hide the mpg text until after it is calculated
 		mpgtext.setVisibility(View.GONE);
+		mpg.setVisibility(View.GONE);
+		
 		
 		//set the focus and pull up the keyboard for the first edit text field
 		miles.requestFocus();
@@ -81,9 +90,7 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 		
 		reset.setOnClickListener(this);
 		submit.setOnClickListener(this);
-	
-		//set onkeylistener so that enter on the last text field will calculate MPG
-		fuelprice.setOnKeyListener(this);
+		
 	}
 
 	
@@ -98,7 +105,7 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 		super.onCreate(savedInstanceState);
 	}	
 	
-	
+	/* Custom class methods */
 	@Override
 	public void onClick(View v) {
 			switch(v.getId()) {
@@ -119,21 +126,37 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	        if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
 	                (keyCode == KeyEvent.KEYCODE_ENTER))
 	        {
-	        	milesint = Float.parseFloat(miles.getText().toString());
-	        	gallonsint = Float.parseFloat(gallons.getText().toString());
-	        	if(fuelprice.getText().toString().equalsIgnoreCase(""))
-	        	{
+	        	if(fuelprice.getText().toString().equalsIgnoreCase("")){
 	        		fuelpriceint = 0;
 	        	}
-	        	else
-	        	{
+	        	else{
 	        		fuelpriceint = Integer.parseInt(fuelprice.getText().toString());
 	        	}
+	        	
 	        	switch (keyCode)
 	            {
 	                case KeyEvent.KEYCODE_DPAD_CENTER:
 	                case KeyEvent.KEYCODE_ENTER:
-	                    calculateMPG(milesint, gallonsint, fuelpriceint);
+	                	if( miles.getText().toString().trim().equals("")){
+	                		
+	                		Toast toast = Toast.makeText(getActivity(), "Miles is required!",
+	                				   Toast.LENGTH_LONG);
+	                		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+	                		toast.show();
+	                		miles.setError("Miles is required!");
+	                	}
+	                	else if(gallons.getText().toString().trim().equals("")){
+	                		Toast toast = Toast.makeText(getActivity(), "Gallons is required!",
+	                				   Toast.LENGTH_LONG);
+	                		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+	                		toast.show();
+	                		gallons.setError("Gallons is required!");
+	                	}
+	                	else {
+	        	        	milesint = Float.parseFloat(miles.getText().toString());
+	        	        	gallonsint = Float.parseFloat(gallons.getText().toString());
+	        	        	calculateMPG(milesint, gallonsint, fuelpriceint);
+	                	}
 	                    return true;
 	                default:
 	                    break;
@@ -149,7 +172,7 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 		totalmpg = milesint/gallonsint;
 		mpgString = String.format("%.2f", totalmpg);
 		
-		
+		mpg.setVisibility(View.VISIBLE);
 		mpgtext.setVisibility(View.VISIBLE);
 		mpg.setText(mpgString);
 	}
@@ -164,6 +187,7 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 		miles.requestFocus();
 		imm.showSoftInput(miles, 0);
 		mpgtext.setVisibility(View.GONE);
+		mpg.setVisibility(View.GONE);
 		mpg.setText("");
 	}
 

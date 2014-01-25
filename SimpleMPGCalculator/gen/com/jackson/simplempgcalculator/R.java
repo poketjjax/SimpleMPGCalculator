@@ -24,12 +24,13 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f09000a;
+        public static final int action_settings=0x7f09000b;
+        public static final int container_layout=0x7f09000a;
         public static final int enter_mileage_frag=0x7f090000;
         public static final int fuelprice=0x7f090003;
         public static final int fuelpricetext=0x7f090004;
         public static final int gallons=0x7f090002;
-        public static final int main_activity_layout=0x7f090009;
+        public static final int main_view=0x7f090009;
         public static final int mpg=0x7f090005;
         public static final int mpgtext=0x7f090006;
         public static final int reset=0x7f090007;
@@ -41,24 +42,25 @@ public final class R {
         public static final int main_activity=0x7f030001;
     }
     public static final class menu {
-        public static final int enter_mileage=0x7f080000;
+        public static final int menu_bar=0x7f080000;
     }
     public static final class string {
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
-        public static final int enter_miles=0x7f060004;
-        public static final int entergallons=0x7f060006;
-        public static final int enterprice=0x7f060007;
-        public static final int fuelprice=0x7f060008;
-        public static final int gallons=0x7f060005;
-        public static final int hello_world=0x7f060002;
-        public static final int mpg=0x7f06000b;
-        public static final int reset=0x7f060009;
-        public static final int save=0x7f06000a;
-        public static final int settings=0x7f06000e;
-        public static final int show_price_summ=0x7f06000d;
-        public static final int show_price_title=0x7f06000c;
-        public static final int tankmiles=0x7f060003;
+        public static final int enter_miles=0x7f060003;
+        public static final int enter_trip=0x7f06000e;
+        public static final int entergallons=0x7f060005;
+        public static final int enterprice=0x7f060006;
+        public static final int fuelprice=0x7f060007;
+        public static final int gallons=0x7f060004;
+        public static final int mpgtxt=0x7f06000a;
+        public static final int past_results=0x7f06000f;
+        public static final int reset=0x7f060008;
+        public static final int save=0x7f060009;
+        public static final int settings=0x7f06000d;
+        public static final int show_price_summ=0x7f06000c;
+        public static final int show_price_title=0x7f06000b;
+        public static final int tankmiles=0x7f060002;
     }
     public static final class style {
         /** 

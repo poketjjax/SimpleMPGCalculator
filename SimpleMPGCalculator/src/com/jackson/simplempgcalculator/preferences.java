@@ -1,27 +1,34 @@
 package com.jackson.simplempgcalculator;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.app.ActionBar;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.util.Log;
 
-public class preferences extends PreferenceFragment {
+public class preferences extends PreferenceActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
-		// Load the preferences from an XML resource
-		addPreferencesFromResource(R.xml.preferences);
-	}	
+    public static class MyPreferenceFragment extends PreferenceFragment
+    {
+        @Override
+        public void onCreate(final Bundle savedInstanceState)
+        {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.preferences);
+        }
+    }
 	
 	@Override
 	public void onResume() {
 	    super.onResume();
 	    // Set title
-	    getActivity().setTitle(R.string.settings);	    
+	    setTitle(R.string.settings);	    
 	}
 
 }

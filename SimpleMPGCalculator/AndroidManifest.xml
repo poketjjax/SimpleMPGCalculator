@@ -8,7 +8,7 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="19" />
 
-    <application
+    <application 
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -23,7 +23,12 @@
             </intent-filter>
         </activity>
         
-        <activity android:name="preferences" android:windowSoftInputMode="stateHidden">
+        <activity android:name="preferences" android:windowSoftInputMode="stateHidden"
+        android:parentActivityName="com.jackson.simplempgcalculator.MainActivity" >
+        <!-- Parent activity meta-data to support API level 7+ -->
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.jackson.simplempgcalculator.MainActivity" />
         </activity>   
             
     </application>

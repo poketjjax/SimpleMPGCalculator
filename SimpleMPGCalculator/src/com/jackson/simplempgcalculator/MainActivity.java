@@ -1,71 +1,69 @@
 package com.jackson.simplempgcalculator;
 
-import java.text.NumberFormat;
-
-import android.os.Bundle;
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.Service;
+import android.app.FragmentTransaction;
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 public class MainActivity extends Activity {
 		
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
 		
-		EnterMileageFrag frag = new EnterMileageFrag();
+		//initializePaging();
+
+		//set up the action bar
+		ActionBar actionbar = getActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(false);
+		actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+		EnterMileageFrag Fragment1 = new EnterMileageFrag();
+		PastResults Fragment2 = new PastResults();
 		
-		android.app.FragmentManager man = getFragmentManager();
-		android.app.FragmentTransaction trans = man.beginTransaction();
-		trans.add(R.id.main_activity_layout, frag, "enterMileageFragment");
-		trans.commit();	
+		Tab tab1 = actionbar.newTab().setText("Enter a Trip");
+		tab1.setTabListener(new tabListener(Fragment1));
+		actionbar.addTab(tab1, true);
+		
+		Tab tab2 = actionbar.newTab().setText("View Past Results");
+		tab2.setTabListener(new tabListener(Fragment2));
+		actionbar.addTab(tab2);
+				
 		}
-	
+
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.enter_mileage, menu);
+		getMenuInflater().inflate(R.menu.menu_bar, menu);
 		return true;
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
-		InputMethodManager input = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        input.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        
-		// Create new fragment and transaction
-		preferences newFragment = new preferences();
-		android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.action_settings:
+	        	//launch the settings activity
+	        	Intent intent = new Intent(this, preferences.class);
+	        	startActivity(intent);
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 
-		// Replace whatever is in the fragment_container view with this fragment,
-		// and add the transaction to the back stack
-		transaction.replace(R.id.main_activity_layout, newFragment,	"preferencesScreen");
-		transaction.addToBackStack(null);
-		// Commit the transaction
-		transaction.commit();
-	        return true;
 	}
-	
-	
 	
 }
 
