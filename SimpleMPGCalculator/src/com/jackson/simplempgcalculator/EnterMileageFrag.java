@@ -48,7 +48,7 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	    
 		//set the focus and pull up the keyboard for the first edit text field
 		miles.requestFocus();
-		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE); 
 		
 	    //create an instance of preferences to read in the values
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
