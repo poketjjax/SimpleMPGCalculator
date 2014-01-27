@@ -1,6 +1,7 @@
 package com.jackson.simplempgcalculator;
 
 import android.app.ActionBar;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
@@ -10,8 +11,12 @@ public class preferences extends PreferenceActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		getListView().setBackgroundColor(Color.parseColor("#D4D4D4"));
+		
 		getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
     }
 
     public static class MyPreferenceFragment extends PreferenceFragment

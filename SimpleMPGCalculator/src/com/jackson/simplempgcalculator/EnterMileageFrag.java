@@ -37,21 +37,22 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	public float fuelpriceint;
 	public float mpgRounded;
 	public String mpgString;
+	public Boolean outStateFlag;
 	
 	/* LIFECYCLE METHODS */
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-	}
-	
 	@Override
 	public void onResume() {
 	    super.onResume();
 	    // Set title
 	    getActivity().setTitle(R.string.app_name);
+	    
+		//set the focus and pull up the keyboard for the first edit text field
+		miles.requestFocus();
+		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		
 	    //create an instance of preferences to read in the values
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-	    boolean showFuelPrice = sharedPref.getBoolean("show_price", true);
+	    boolean showFuelPrice = sharedPref.getBoolean("show_price", false);
 	    
 	    //hide the fuel price based on the settings checkbox. also set onkeylistener based on checkbox
 	    if(!showFuelPrice){
@@ -59,10 +60,13 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	    	fuelpricetxt.setVisibility(View.GONE);
 	    	gallons.setOnKeyListener(this);
 	    } else {
+	    	fuelprice.setVisibility(View.VISIBLE);
+	    	fuelpricetxt.setVisibility(View.VISIBLE);
 	    	fuelprice.setOnKeyListener(this);
 	    }
 	}
 	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -74,15 +78,9 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 		mpgtext = (TextView) getView().findViewById(R.id.mpgtext);
 		fuelpricetxt = (TextView) getView().findViewById(R.id.fuelpricetext);
 		
-
 		//hide the mpg text until after it is calculated
 		mpgtext.setVisibility(View.GONE);
 		mpg.setVisibility(View.GONE);
-		
-		
-		//set the focus and pull up the keyboard for the first edit text field
-		miles.requestFocus();
-		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		
 		//set onclicklistener for all buttons
 		reset = (Button) getView().findViewById(R.id.reset);
@@ -92,18 +90,14 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 		submit.setOnClickListener(this);
 		
 	}
-
 	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.activity_enter_mileage, container, false);
 	}
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}	
 	
 	/* Custom class methods */
 	@Override
