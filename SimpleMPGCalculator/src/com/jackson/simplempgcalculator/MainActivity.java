@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 		
+	/* VARIABLES */
+	private static Context context;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,8 +64,11 @@ public class MainActivity extends Activity {
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
-
 	}
+	
+    public static Context getAppContext() {
+        return MainActivity.context;
+    }
 	
 }
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.Fragment;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import com.jackson.simplempgcalculator.DbAdapter;
 import android.view.WindowManager;
 import android.view.View.OnKeyListener;
 import android.view.inputmethod.InputMethodManager;
@@ -32,12 +34,14 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	public TextView fuelpricetxt;
 	private Button reset;
 	private Button submit;
-	public float milesint;
-	public float gallonsint;
-	public float fuelpriceint;
-	public float mpgRounded;
+	public float milesfloat;
+	public float gallonsfloat;
+	public float fuelpricefloat;
+	public float totalmpg;
+	public float totalPrice;
 	public String mpgString;
-	public Boolean outStateFlag;
+	public String priceString;
+	private Boolean saveFlag = false;
 	
 	/* LIFECYCLE METHODS */
 	@Override
@@ -107,6 +111,11 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 				clearAllFields();
 				break;
 			case R.id.saveResults:
+				if(mpgtext.isShown()){
+					saveResults();
+				} else {
+					Toast.makeText(getActivity(), "Fill out a Trip first!", Toast.LENGTH_LONG).show();
+				}
 				
 				break;
 			}	
@@ -121,10 +130,10 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	                (keyCode == KeyEvent.KEYCODE_ENTER))
 	        {
 	        	if(fuelprice.getText().toString().equalsIgnoreCase("")){
-	        		fuelpriceint = 0;
+	        		fuelpricefloat = 0;
 	        	}
 	        	else{
-	        		fuelpriceint = Integer.parseInt(fuelprice.getText().toString());
+	        		fuelpricefloat = Integer.parseInt(fuelprice.getText().toString());
 	        	}
 	        	
 	        	switch (keyCode)
@@ -147,9 +156,9 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	                		gallons.setError("Gallons is required!");
 	                	}
 	                	else {
-	        	        	milesint = Float.parseFloat(miles.getText().toString());
-	        	        	gallonsint = Float.parseFloat(gallons.getText().toString());
-	        	        	calculateMPG(milesint, gallonsint, fuelpriceint);
+	        	        	milesfloat = Float.parseFloat(miles.getText().toString());
+	        	        	gallonsfloat = Float.parseFloat(gallons.getText().toString());
+	        	        	calculateMPG(milesfloat, gallonsfloat, fuelpricefloat);
 	                	}
 	                    return true;
 	                default:
@@ -160,11 +169,16 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	}
 	
 	public void calculateMPG(float milesint, float gallonsint, float fuelpriceint) {
-		float totalmpg;
-		String mpgString;
+
 		
 		totalmpg = milesint/gallonsint;
 		mpgString = String.format("%.2f", totalmpg);
+		
+		if(fuelpriceint != 0){
+			totalPrice = (fuelpriceint * gallonsint);
+		} else {
+			priceString = "-";
+		}
 		
 		mpg.setVisibility(View.VISIBLE);
 		mpgtext.setVisibility(View.VISIBLE);
@@ -186,6 +200,27 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	}
 
 
+	private void saveResults() {
+		DbAdapter adapter = new DbAdapter(getActivity());
+		
+		adapter.open();
+		
+		ContentValues values = new ContentValues();
+		values.put(DbAdapter.MILES, milesfloat);
+		values.put(DbAdapter.GALLONS, gallonsfloat);
+		values.put(DbAdapter.MPG, totalmpg);
+		if(fuelpricetxt.toString().matches("")){
+			values.put(DbAdapter.PRICE, 0.00);
+			values.put(DbAdapter.TOTAL_COST, 0.00);
+		} else {
+			values.put(DbAdapter.PRICE, fuelpricefloat);
+			values.put(DbAdapter.TOTAL_COST, totalPrice);
+		}
+		
+		adapter.insert(DbAdapter.TRIPS_TABLE, values);
+		
+		adapter.close();
+	}
 }
 
 
