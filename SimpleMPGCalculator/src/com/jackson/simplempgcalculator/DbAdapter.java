@@ -3,6 +3,7 @@ package com.jackson.simplempgcalculator;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
@@ -17,7 +18,7 @@ public class DbAdapter {
 	/* CONSTANTS */
 	private static final int DB_VERSION = 1;
 	public static final String TRIPS_TABLE = "trips";
-	private static final String ID = "id";
+	private static final String ID = "_id";
 	public static final String MILES = "miles";
 	public static final String GALLONS = "gallons";
 	public static final String MPG = "mpg";
@@ -44,13 +45,17 @@ public class DbAdapter {
 	public synchronized void open() {
 		db = dbHelper.getWritableDatabase();
 	}
-
-	public synchronized void close() {
-		db.close();
-	}
 	
 	public long insert(String table, ContentValues values) {
 		return db.insert(table, null, values);
+	}
+	
+	public Cursor select(String select) {
+		return db.rawQuery(select, null);
+	}
+	
+	public synchronized void close() {
+		db.close();
 	}
 	
 	

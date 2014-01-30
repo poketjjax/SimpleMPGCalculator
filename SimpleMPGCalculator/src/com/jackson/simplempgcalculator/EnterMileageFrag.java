@@ -1,5 +1,8 @@
 package com.jackson.simplempgcalculator;
 
+import java.text.Format;
+import java.text.NumberFormat;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -42,6 +45,7 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	public String mpgString;
 	public String priceString;
 	private Boolean saveFlag = false;
+	
 	
 	/* LIFECYCLE METHODS */
 	@Override
@@ -106,70 +110,61 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	/* Custom class methods */
 	@Override
 	public void onClick(View v) {
-			switch(v.getId()) {
-			case R.id.reset:
-				clearAllFields();
-				break;
-			case R.id.saveResults:
-				if(mpgtext.isShown()){
-					saveResults();
-				} else {
-					Toast.makeText(getActivity(), "Fill out a Trip first!", Toast.LENGTH_LONG).show();
-				}
-				
-				break;
+		switch(v.getId()) {
+		case R.id.reset:
+			clearAllFields();
+			break;
+		case R.id.saveResults:
+			if(mpgtext.isShown()){
+				saveResults();
+			} else {
+				Toast.makeText(getActivity(), "Fill out a Trip first!", Toast.LENGTH_LONG).show();
 			}	
+			break;
+		}	
 	}
 
 
 	@Override
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
-			
-			
-	        if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-	                (keyCode == KeyEvent.KEYCODE_ENTER))
-	        {
-	        	if(fuelprice.getText().toString().equalsIgnoreCase("")){
-	        		fuelpricefloat = 0;
-	        	}
-	        	else{
-	        		fuelpricefloat = Integer.parseInt(fuelprice.getText().toString());
-	        	}
+	
+		if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)){
 	        	
-	        	switch (keyCode)
-	            {
-	                case KeyEvent.KEYCODE_DPAD_CENTER:
-	                case KeyEvent.KEYCODE_ENTER:
-	                	if( miles.getText().toString().trim().equals("")){
-	                		
-	                		Toast toast = Toast.makeText(getActivity(), "Miles is required!",
-	                				   Toast.LENGTH_LONG);
-	                		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-	                		toast.show();
-	                		miles.setError("Miles is required!");
-	                	}
-	                	else if(gallons.getText().toString().trim().equals("")){
-	                		Toast toast = Toast.makeText(getActivity(), "Gallons is required!",
-	                				   Toast.LENGTH_LONG);
-	                		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-	                		toast.show();
-	                		gallons.setError("Gallons is required!");
-	                	}
-	                	else {
-	        	        	milesfloat = Float.parseFloat(miles.getText().toString());
-	        	        	gallonsfloat = Float.parseFloat(gallons.getText().toString());
-	        	        	calculateMPG(milesfloat, gallonsfloat, fuelpricefloat);
-	                	}
-	                    return true;
-	                default:
-	                    break;
-	            }
+			if(fuelprice.getText().toString().equalsIgnoreCase("")){
+	        	fuelpricefloat = 0;
 	        }
+	        else{
+	        	fuelpricefloat = Integer.parseInt(fuelprice.getText().toString());
+	        }
+	        
+	        switch (keyCode) {
+	        	case KeyEvent.KEYCODE_DPAD_CENTER:
+	            case KeyEvent.KEYCODE_ENTER:
+	            	if( miles.getText().toString().trim().equals("")){
+	            		Toast toast = Toast.makeText(getActivity(), "Miles is required!", Toast.LENGTH_LONG);
+	                	toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+	                	toast.show();
+	                	miles.setError("Miles is required!");
+	                } else if(gallons.getText().toString().trim().equals("")){
+	                	Toast toast = Toast.makeText(getActivity(), "Gallons is required!", Toast.LENGTH_LONG);
+	                	toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+	                	toast.show();
+	                	gallons.setError("Gallons is required!");
+	                } else {
+	                	milesfloat = Float.parseFloat(miles.getText().toString());
+	        	        gallonsfloat = Float.parseFloat(gallons.getText().toString());
+	        	        calculateMPG(milesfloat, gallonsfloat, fuelpricefloat);
+	                }
+	                return true;
+	                
+	            default:
+	            break;
+	        }
+	    }
 		return false;
 	}
 	
 	public void calculateMPG(float milesint, float gallonsint, float fuelpriceint) {
-
 		
 		totalmpg = milesint/gallonsint;
 		mpgString = String.format("%.2f", totalmpg);
@@ -219,7 +214,6 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 		
 		adapter.insert(DbAdapter.TRIPS_TABLE, values);
 		
-		adapter.close();
 	}
 }
 

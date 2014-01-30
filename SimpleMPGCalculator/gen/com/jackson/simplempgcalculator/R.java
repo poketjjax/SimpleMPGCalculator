@@ -21,25 +21,34 @@ public final class R {
         public static final int activity_vertical_margin=0x7f050001;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int background_card=0x7f020000;
+        public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f09000b;
+        public static final int action_settings=0x7f090011;
         public static final int container_layout=0x7f09000a;
+        public static final int cost_item=0x7f09000d;
         public static final int enter_mileage_frag=0x7f090000;
         public static final int fuelprice=0x7f090003;
         public static final int fuelpricetext=0x7f090004;
         public static final int gallons=0x7f090002;
+        public static final int gallons_item=0x7f090010;
         public static final int main_view=0x7f090009;
+        public static final int miles_item=0x7f09000f;
         public static final int mpg=0x7f090005;
+        public static final int mpg_item=0x7f09000e;
         public static final int mpgtext=0x7f090006;
+        public static final int price_item=0x7f09000c;
         public static final int reset=0x7f090007;
+        public static final int results_list=0x7f09000b;
         public static final int saveResults=0x7f090008;
         public static final int tankmiles=0x7f090001;
     }
     public static final class layout {
         public static final int activity_enter_mileage=0x7f030000;
         public static final int main_activity=0x7f030001;
+        public static final int past_results=0x7f030002;
+        public static final int result_item=0x7f030003;
     }
     public static final class menu {
         public static final int menu_bar=0x7f080000;

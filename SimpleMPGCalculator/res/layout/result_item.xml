@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="300dp"
+	android:layout_height="150dp"
+	>
+ 
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent" 
+			android:layout_marginLeft="6dp"
+			android:layout_marginRight="6dp"
+			android:layout_marginTop="4dp"
+			android:layout_marginBottom="4dp"
+			android:background="@drawable/background_card">
+
+    <TextView
+        android:id="@+id/price_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="21dp"
+        />
+
+    <TextView
+        android:id="@+id/cost_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="21dp"
+         />
+
+    <TextView
+        android:id="@+id/mpg_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+         />
+
+    <TextView
+        android:id="@+id/miles_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+         />
+
+    <TextView
+        android:id="@+id/gallons_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         />
+
+	</LinearLayout>
+ 
+</FrameLayout>
