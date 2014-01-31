@@ -44,7 +44,6 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	public float totalPrice;
 	public String mpgString;
 	public String priceString;
-	private Boolean saveFlag = false;
 	
 	
 	/* LIFECYCLE METHODS */
@@ -55,6 +54,7 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	    getActivity().setTitle(R.string.app_name);
 	    
 		//set the focus and pull up the keyboard for the first edit text field
+	    miles.clearFocus();
 		miles.requestFocus();
 		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE); 
 		
@@ -99,13 +99,20 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 		
 	}
 	
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.activity_enter_mileage, container, false);
 	}
-
+	
+	
+	@Override
+	public void onPause() {
+	    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+	    imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+		super.onPause();
+	}
 	
 	/* Custom class methods */
 	@Override

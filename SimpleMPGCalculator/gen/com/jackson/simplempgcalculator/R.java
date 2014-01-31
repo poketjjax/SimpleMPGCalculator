@@ -27,18 +27,18 @@ public final class R {
     public static final class id {
         public static final int action_settings=0x7f090011;
         public static final int container_layout=0x7f09000a;
-        public static final int cost_item=0x7f09000d;
+        public static final int cost_item=0x7f09000f;
         public static final int enter_mileage_frag=0x7f090000;
         public static final int fuelprice=0x7f090003;
         public static final int fuelpricetext=0x7f090004;
         public static final int gallons=0x7f090002;
-        public static final int gallons_item=0x7f090010;
+        public static final int gallons_item=0x7f09000e;
         public static final int main_view=0x7f090009;
-        public static final int miles_item=0x7f09000f;
+        public static final int miles_item=0x7f09000d;
         public static final int mpg=0x7f090005;
-        public static final int mpg_item=0x7f09000e;
+        public static final int mpg_item=0x7f09000c;
         public static final int mpgtext=0x7f090006;
-        public static final int price_item=0x7f09000c;
+        public static final int price_item=0x7f090010;
         public static final int reset=0x7f090007;
         public static final int results_list=0x7f09000b;
         public static final int saveResults=0x7f090008;

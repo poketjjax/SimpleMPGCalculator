@@ -1,11 +1,14 @@
 package com.jackson.simplempgcalculator;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
@@ -19,7 +22,7 @@ public class PastResults extends Fragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);		
 	}
 
 	@Override
@@ -48,11 +51,8 @@ public class PastResults extends Fragment {
 		
 		ListView resultsList = (ListView) getView().findViewById(R.id.results_list);
 		if(resultsList != null){
-		resultsList.setAdapter(myCursorAdapter);
-		} else {
-			Toast.makeText(getActivity(), "it's null", Toast.LENGTH_SHORT).show();
+			resultsList.setAdapter(myCursorAdapter);
 		}
-		
 	}
 
 	
