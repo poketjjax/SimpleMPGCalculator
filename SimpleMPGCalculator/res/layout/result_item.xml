@@ -13,54 +13,90 @@
 			android:layout_marginTop="4dp"
 			android:layout_marginBottom="4dp"
 			>
+			
+		    <TextView 
+		        android:id="@+id/date"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentTop="true"
+		        android:layout_alignParentLeft="true"
+		        />
 		
 		    <TextView
 		        android:id="@+id/mpg_item"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_alignParentLeft="true"
-		        android:layout_alignParentTop="true"
-		        android:textSize="25sp"
-		        android:text="MPG" />
-		
+		        android:layout_centerHorizontal="true"
+		        android:layout_marginTop="30dp"
+		        android:textSize="25sp" />
+		    
 		    <TextView
 		        android:id="@+id/miles_item"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_alignParentLeft="true"
-		        android:layout_alignParentBottom="true"
-		        android:text="Miles" />
-		
+		        android:layout_alignParentBottom="true" />
+		    
+		    <TextView
+		        android:id="@+id/miles_label"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_above="@id/miles_item"
+		        android:layout_alignLeft="@id/miles_item"
+		        android:text="@string/miles" />
+		    	
 		    <TextView
 		        android:id="@+id/gallons_item"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_alignBaseline="@+id/miles_item"
 		        android:layout_alignBottom="@+id/miles_item"
-		        android:layout_marginLeft="20dp"
-		        android:layout_toRightOf="@+id/miles_item"
-		        android:text="Gallons" />
-		
+		        android:layout_marginLeft="12dp"
+		        android:layout_marginRight="12dp"
+		        android:layout_toRightOf="@+id/miles_item" />
+		    
+			<TextView
+		        android:id="@+id/gallons_label"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_above="@id/gallons_item"
+		        android:layout_alignLeft="@id/gallons_item"
+		        android:text="@string/gallons" />	
+		        		        		
 		    <TextView
 		        android:id="@+id/cost_item"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_alignBaseline="@+id/miles_item"
 		        android:layout_alignBottom="@+id/miles_item"
-		        android:layout_marginLeft="20dp"
-		        android:layout_toRightOf="@+id/gallons_item"
-		        android:text="Cost" />
-		
-		    <TextView
+		        android:layout_alignParentRight="true"
+		        android:layout_marginLeft="15dp" />
+		    
+			<TextView
+		        android:id="@+id/cost_label"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_above="@id/cost_item"
+		        android:layout_alignLeft="@id/cost_item"
+		        android:text="@string/cost" />  
+
+			<TextView
 		        android:id="@+id/price_item"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_alignBaseline="@+id/miles_item"
 		        android:layout_alignBottom="@+id/miles_item"
-		        android:layout_marginLeft="20dp"
-		        android:layout_toRightOf="@+id/cost_item"
-		        android:text="Price" />
+		        android:layout_toLeftOf="@id/cost_item"/>
 
+			<TextView
+		        android:id="@+id/price_label"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_above="@id/price_item"
+		        android:layout_alignLeft="@id/price_item"
+		        android:text="@string/price" />			    
+ 
+		        		    
 	   </RelativeLayout>
  
 </FrameLayout>

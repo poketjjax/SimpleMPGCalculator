@@ -2,6 +2,9 @@ package com.jackson.simplempgcalculator;
 
 import java.text.Format;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -54,7 +57,6 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	    getActivity().setTitle(R.string.app_name);
 	    
 		//set the focus and pull up the keyboard for the first edit text field
-	    miles.clearFocus();
 		miles.requestFocus();
 		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE); 
 		
@@ -141,7 +143,7 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	        	fuelpricefloat = 0;
 	        }
 	        else{
-	        	fuelpricefloat = Integer.parseInt(fuelprice.getText().toString());
+	        	fuelpricefloat = Float.parseFloat(fuelprice.getText().toString());
 	        }
 	        
 	        switch (keyCode) {
@@ -207,16 +209,21 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 		
 		adapter.open();
 		
+		//create a date to store in the DB
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+		Date date = new Date();
+		
 		ContentValues values = new ContentValues();
 		values.put(DbAdapter.MILES, milesfloat);
 		values.put(DbAdapter.GALLONS, gallonsfloat);
-		values.put(DbAdapter.MPG, totalmpg);
+		values.put(DbAdapter.MPG, Math.round(totalmpg*100.0)/100.0);
+		values.put(DbAdapter.DATE, dateFormat.format(date));
 		if(fuelpricetxt.toString().matches("")){
 			values.put(DbAdapter.PRICE, 0.00);
 			values.put(DbAdapter.TOTAL_COST, 0.00);
 		} else {
 			values.put(DbAdapter.PRICE, fuelpricefloat);
-			values.put(DbAdapter.TOTAL_COST, totalPrice);
+			values.put(DbAdapter.TOTAL_COST, Math.round(totalPrice*100.0)/100.0);
 		}
 		
 		adapter.insert(DbAdapter.TRIPS_TABLE, values);

@@ -66,10 +66,6 @@ public class MainActivity extends Activity {
 	    }
 	}
 	
-    public static Context getAppContext() {
-        return MainActivity.context;
-    }
-	
 }
 
 

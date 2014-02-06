@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +42,10 @@ public class PastResults extends Fragment {
 		
 		String from[] = new String[]
 				{DbAdapter.GALLONS, DbAdapter.MILES, DbAdapter.MPG,
-					DbAdapter.PRICE, DbAdapter.TOTAL_COST};
+					DbAdapter.PRICE, DbAdapter.TOTAL_COST, DbAdapter.DATE};
 		int[] to = new int[]
 				{R.id.gallons_item, R.id.miles_item, R.id.mpg_item,
-					R.id.price_item, R.id.cost_item};
+					R.id.price_item, R.id.cost_item, R.id.date};
 		
 		
 		SimpleCursorAdapter myCursorAdapter = new SimpleCursorAdapter(getActivity(), R.layout.result_item, cursor, from, to);
@@ -52,11 +53,9 @@ public class PastResults extends Fragment {
 		ListView resultsList = (ListView) getView().findViewById(R.id.results_list);
 		if(resultsList != null){
 			resultsList.setAdapter(myCursorAdapter);
+			myCursorAdapter.setViewBinder(new resultsViewBinder());
 		}
 	}
 
-	
-	
-	
 	
 }

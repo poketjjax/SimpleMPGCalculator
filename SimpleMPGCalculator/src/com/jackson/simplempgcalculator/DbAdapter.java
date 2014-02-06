@@ -24,9 +24,10 @@ public class DbAdapter {
 	public static final String MPG = "mpg";
 	public static final String PRICE = "price";
 	public static final String TOTAL_COST = "total_cost";
+	public static final String DATE = "date";
 	
-	private static final String TRIPS_TABLE_CREATE = String.format("CREATE TABLE IF NOT EXISTS %s (%s integer primary key autoincrement, %s real, %s real, %s real, %s real, %s real)",
-			TRIPS_TABLE, ID, MILES, GALLONS, MPG, PRICE, TOTAL_COST);
+	private static final String TRIPS_TABLE_CREATE = String.format("CREATE TABLE IF NOT EXISTS %s (%s integer primary key autoincrement, %s real, %s real, %s real, %s real, %s real, %s text)",
+			TRIPS_TABLE, ID, MILES, GALLONS, MPG, PRICE, TOTAL_COST, DATE);
 
 
 	
@@ -68,7 +69,6 @@ public class DbAdapter {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			Log.e("df", "make it to oncreate of dbhelper");
 			createTable(db, TRIPS_TABLE_CREATE);
 		}
 
@@ -78,8 +78,6 @@ public class DbAdapter {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			Log.e("df", "make it to onupgrade of dbhelper");
-			
 		}
 	}
 	
