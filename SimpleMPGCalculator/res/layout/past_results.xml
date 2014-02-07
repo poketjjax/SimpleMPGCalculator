@@ -5,6 +5,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#e5e5e5">
+
+    <RelativeLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        >
+        <Spinner 
+            android:id="@+id/sort_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            />
+        
+        <Button 
+            android:id="@+id/delete_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete"
+       		android:layout_alignParentRight="true"
+       		android:layout_marginRight="6dp"
+            />
+	</RelativeLayout>
  
     <ListView
         android:id="@+id/results_list" 

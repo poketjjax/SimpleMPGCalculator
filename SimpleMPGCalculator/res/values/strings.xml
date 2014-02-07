@@ -21,5 +21,6 @@
     <string name="gallons">Gallons</string>
     <string name="cost">Cost</string>
     <string name="price">Price</string>
+    <string name="delete">     Delete All     </string>
 
 </resources>

@@ -25,28 +25,30 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f090016;
+        public static final int action_settings=0x7f090018;
         public static final int container_layout=0x7f09000a;
-        public static final int cost_item=0x7f090012;
-        public static final int cost_label=0x7f090013;
-        public static final int date=0x7f09000c;
+        public static final int cost_item=0x7f090014;
+        public static final int cost_label=0x7f090015;
+        public static final int date=0x7f09000e;
+        public static final int delete_all=0x7f09000c;
         public static final int enter_mileage_frag=0x7f090000;
         public static final int fuelprice=0x7f090003;
         public static final int fuelpricetext=0x7f090004;
         public static final int gallons=0x7f090002;
-        public static final int gallons_item=0x7f090010;
-        public static final int gallons_label=0x7f090011;
+        public static final int gallons_item=0x7f090012;
+        public static final int gallons_label=0x7f090013;
         public static final int main_view=0x7f090009;
-        public static final int miles_item=0x7f09000e;
-        public static final int miles_label=0x7f09000f;
+        public static final int miles_item=0x7f090010;
+        public static final int miles_label=0x7f090011;
         public static final int mpg=0x7f090005;
-        public static final int mpg_item=0x7f09000d;
+        public static final int mpg_item=0x7f09000f;
         public static final int mpgtext=0x7f090006;
-        public static final int price_item=0x7f090014;
-        public static final int price_label=0x7f090015;
+        public static final int price_item=0x7f090016;
+        public static final int price_label=0x7f090017;
         public static final int reset=0x7f090008;
-        public static final int results_list=0x7f09000b;
+        public static final int results_list=0x7f09000d;
         public static final int saveResults=0x7f090007;
+        public static final int sort_spinner=0x7f09000b;
         public static final int tankmiles=0x7f090001;
     }
     public static final class layout {
@@ -62,6 +64,7 @@ public final class R {
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
         public static final int cost=0x7f060012;
+        public static final int delete=0x7f060014;
         public static final int enter_gallons=0x7f060004;
         public static final int enter_miles=0x7f060003;
         public static final int enter_trip=0x7f06000e;

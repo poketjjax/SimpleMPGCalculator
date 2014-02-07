@@ -55,6 +55,10 @@ public class DbAdapter {
 		return db.rawQuery(select, null);
 	}
 	
+	public int delete() {
+		return db.delete(TRIPS_TABLE, "1", null);
+	}
+	
 	public synchronized void close() {
 		db.close();
 	}

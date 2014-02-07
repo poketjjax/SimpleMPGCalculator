@@ -1,20 +1,21 @@
 package com.jackson.simplempgcalculator;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-public class PastResults extends Fragment {
+public class PastResults extends Fragment implements OnClickListener {
+	
+	/* VARIABLES */
+	private Button delete;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,6 +30,8 @@ public class PastResults extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		delete = (Button) getActivity().findViewById(R.id.delete_all);
+		delete.setOnClickListener(this);
 		populateResultsList();
 	}
 
@@ -55,6 +58,31 @@ public class PastResults extends Fragment {
 			resultsList.setAdapter(myCursorAdapter);
 			myCursorAdapter.setViewBinder(new resultsViewBinder());
 		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()) {
+		case R.id.delete_all:
+			deleteAllRecords();
+			break;
+		}	
+	}
+
+	private void deleteAllRecords() {
+		DbAdapter adapter = new DbAdapter(getActivity());
+		
+		adapter.open();
+		
+		int rows = adapter.delete();
+		
+		if(rows <= 0){
+			Toast.makeText(getActivity(), "No rows were deleted", Toast.LENGTH_SHORT).show();
+		} else {
+			Toast.makeText(getActivity(), "All trips successfully deleted", Toast.LENGTH_SHORT).show();
+		}
+		
+		populateResultsList();
 	}
 
 	
