@@ -15,6 +15,25 @@
 			>
 			
 		    <TextView 
+		    	android:id="@+id/rowId"
+		    	android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:visibility="invisible"
+		    	/>
+		    
+		    <ImageButton 
+			    android:id="@+id/cardBtn"
+			    android:background="@null"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:src="@drawable/ic_action_overflow"
+			    android:contentDescription="@string/app_name"
+			    android:layout_alignParentRight="true"
+			    android:layout_alignParentTop="true"
+			    android:onClick="showPopup"
+			    />
+		    
+		    <TextView 
 		        android:id="@+id/date"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"

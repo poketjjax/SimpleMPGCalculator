@@ -22,5 +22,10 @@
     <string name="cost">Cost</string>
     <string name="price">Price</string>
     <string name="delete">     Delete All     </string>
+    <string name="deleteTitle">Delete All Trips?</string>
+    <string name="deleteMessage">This will permanently delete all trip entries</string>
+    <string name="deleteYes">Delete</string>
+    <string name="deleteNo">Cancel</string>
+    <string name="cardDelete">delete</string>
 
 </resources>

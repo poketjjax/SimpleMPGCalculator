@@ -18,7 +18,7 @@ public class DbAdapter {
 	/* CONSTANTS */
 	private static final int DB_VERSION = 1;
 	public static final String TRIPS_TABLE = "trips";
-	private static final String ID = "_id";
+	public static final String ID = "_id";
 	public static final String MILES = "miles";
 	public static final String GALLONS = "gallons";
 	public static final String MPG = "mpg";
