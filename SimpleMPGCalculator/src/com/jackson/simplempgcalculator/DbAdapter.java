@@ -59,6 +59,10 @@ public class DbAdapter {
 		return db.delete(TRIPS_TABLE, "1", null);
 	}
 	
+	public void deleteRow(int rowId) {
+		db.rawQuery(String.format("DELETE FROM %s WHERE %s = %d", TRIPS_TABLE, ID, rowId), null);
+	}
+	
 	public synchronized void close() {
 		db.close();
 	}

@@ -41,7 +41,7 @@ public class PastResults extends Fragment implements OnClickListener {
 		populateResultsList();
 	}
 
-	private void populateResultsList() {
+	public void populateResultsList() {
 		DbAdapter adapter = new DbAdapter(getActivity());
 		
 		adapter.open();
@@ -96,7 +96,6 @@ public class PastResults extends Fragment implements OnClickListener {
 		        	@Override
 				    public void onClick(DialogInterface dialog, int which) {
 		        		DbAdapter adapter = new DbAdapter(getActivity());
-		        		
 		        		adapter.open();
 		        		
 		        		int rows = adapter.delete();
@@ -114,6 +113,10 @@ public class PastResults extends Fragment implements OnClickListener {
 		    .show();
 	}
 
+	public static void deleteCard(int rowId, DbAdapter adapter) {
+		adapter.open();
+		adapter.deleteRow(rowId);
+	}
 }
 
 
