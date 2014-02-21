@@ -25,6 +25,7 @@ public class DbAdapter {
 	public static final String PRICE = "price";
 	public static final String TOTAL_COST = "total_cost";
 	public static final String DATE = "date";
+	public static final String selectAll = "SELECT * FROM trips";
 	
 	private static final String TRIPS_TABLE_CREATE = String.format("CREATE TABLE IF NOT EXISTS %s (%s integer primary key autoincrement, %s real, %s real, %s real, %s real, %s real, %s text)",
 			TRIPS_TABLE, ID, MILES, GALLONS, MPG, PRICE, TOTAL_COST, DATE);
@@ -59,8 +60,8 @@ public class DbAdapter {
 		return db.delete(TRIPS_TABLE, "1", null);
 	}
 	
-	public void deleteRow(int rowId) {
-		db.rawQuery(String.format("DELETE FROM %s WHERE %s = %d", TRIPS_TABLE, ID, rowId), null);
+	public int deleteRow(int rowId) {
+		return db.delete(TRIPS_TABLE, ID +  "=" + Integer.toString(rowId), null);
 	}
 	
 	public synchronized void close() {

@@ -18,11 +18,10 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickListener {
+public class MainActivity extends Activity {
 		
 	/* VARIABLES */
 	private static Context context;
-	public Integer rowId;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,29 +67,6 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
-	}
-	
-	public void showPopup(View v) {
-	    PopupMenu popup = new PopupMenu(this, v);
-	    popup.setOnMenuItemClickListener(this);
-	    MenuInflater inflater = popup.getMenuInflater();
-	    inflater.inflate(R.menu.card_menu, popup.getMenu());
-	    View view = (View)v.getParent();
-	    TextView cardId = (TextView) view.findViewById(R.id.rowId);
-	    rowId = Integer.parseInt(cardId.getText().toString());
-	    popup.show();
-	}
-
-	@Override
-	public boolean onMenuItemClick(MenuItem item) {
-		switch(item.getItemId()) {
-			case R.id.card_delete:
-        		DbAdapter adapter = new DbAdapter(this);
-				PastResults.deleteCard(rowId, adapter);
-				return true;
-			default:
-				return false;
-		}
 	}
 	
 }
