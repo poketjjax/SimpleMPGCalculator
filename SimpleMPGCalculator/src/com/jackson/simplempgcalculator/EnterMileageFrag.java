@@ -1,28 +1,23 @@
 package com.jackson.simplempgcalculator;
 
-import java.text.Format;
-import java.text.NumberFormat;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import com.jackson.simplempgcalculator.DbAdapter;
 import android.view.WindowManager;
-import android.view.View.OnKeyListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,21 +27,23 @@ import android.widget.Toast;
 public class EnterMileageFrag extends Fragment implements View.OnClickListener, View.OnKeyListener {
 
 	/* VARIABLES */
-    public EditText miles;
-	public EditText gallons;
-	public EditText fuelprice;
-	public TextView mpg;
-	public TextView mpgtext;
-	public TextView fuelpricetxt;
+	private EditText miles;
+	private EditText gallons;
+	private EditText fuelprice;
+	private TextView mpg;
+	private TextView mpgtext;
+	private TextView fuelpricetxt;
 	private Button reset;
 	private Button submit;
-	public float milesfloat;
-	public float gallonsfloat;
-	public float fuelpricefloat;
-	public float totalmpg;
-	public float totalPrice;
-	public String mpgString;
-	public String priceString;
+	private Button calculate;
+	private float milesfloat;
+	private float gallonsfloat;
+	private float fuelpricefloat;
+	private float totalmpg;
+	private float totalPrice;
+	private String mpgString;
+	private static DbAdapter adapter;
+	public DecimalFormat df = new DecimalFormat("##.##");
 	
 	
 	/* LIFECYCLE METHODS */
@@ -58,7 +55,8 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	    
 		//set the focus and pull up the keyboard for the first edit text field
 		miles.requestFocus();
-		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE); 
+	    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+	    imm.showSoftInput(miles, 0);
 		
 	    //create an instance of preferences to read in the values
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -95,17 +93,20 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 		//set onclicklistener for all buttons
 		reset = (Button) getView().findViewById(R.id.reset);
 		submit = (Button) getView().findViewById(R.id.saveResults);
+		calculate = (Button) getView().findViewById(R.id.calculateResult);
 		
 		reset.setOnClickListener(this);
 		submit.setOnClickListener(this);
+		calculate.setOnClickListener(this);
 		
+		adapter = new DbAdapter(getActivity());
+		adapter.open();	
 	}
 	
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.activity_enter_mileage, container, false);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.enter_mileage, container, false);
 	}
 	
 	
@@ -116,6 +117,12 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 		super.onPause();
 	}
 	
+	@Override
+	public void onDestroyView() {
+	    adapter.close();
+		super.onDestroyView();
+	}
+
 	/* Custom class methods */
 	@Override
 	public void onClick(View v) {
@@ -130,14 +137,29 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 				Toast.makeText(getActivity(), "Fill out a Trip first!", Toast.LENGTH_LONG).show();
 			}	
 			break;
+		case R.id.calculateResult:
+        	if( miles.getText().toString().trim().equals("")){
+        		Toast toast = Toast.makeText(getActivity(), "Miles is required!", Toast.LENGTH_LONG);
+            	toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+            	toast.show();
+            	miles.setError("Miles is required!");
+            } else if(gallons.getText().toString().trim().equals("")){
+            	Toast toast = Toast.makeText(getActivity(), "Gallons is required!", Toast.LENGTH_LONG);
+            	toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+            	toast.show();
+            	gallons.setError("Gallons is required!");
+            } else {
+            	milesfloat = Float.parseFloat(miles.getText().toString());
+    	        gallonsfloat = Float.parseFloat(gallons.getText().toString());
+    	        calculateMPG(milesfloat, gallonsfloat, fuelpricefloat);
+            }
+			break;
 		}	
 	}
 
-
 	@Override
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
-	
-		if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)){
+		if((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)){
 	        	
 			if(fuelprice.getText().toString().equalsIgnoreCase("")){
 	        	fuelpricefloat = 0;
@@ -174,14 +196,16 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	}
 	
 	public void calculateMPG(float milesint, float gallonsint, float fuelpriceint) {
-		
 		totalmpg = milesint/gallonsint;
 		mpgString = String.format("%.2f", totalmpg);
 		
+		
 		if(fuelpriceint != 0){
+			df.setRoundingMode(RoundingMode.DOWN);
+			String tempfuelprice = df.format(fuelpriceint);
+			fuelpriceint = Float.parseFloat(tempfuelprice);
+			fuelpriceint += 0.009;
 			totalPrice = (fuelpriceint * gallonsint);
-		} else {
-			priceString = "-";
 		}
 		
 		mpg.setVisibility(View.VISIBLE);
@@ -204,11 +228,7 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 	}
 
 
-	private void saveResults() {
-		DbAdapter adapter = new DbAdapter(getActivity());
-		
-		adapter.open();
-		
+	private void saveResults() {			
 		//create a date to store in the DB
 		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 		Date date = new Date();
@@ -222,12 +242,23 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 			values.put(DbAdapter.PRICE, 0.00);
 			values.put(DbAdapter.TOTAL_COST, 0.00);
 		} else {
-			values.put(DbAdapter.PRICE, fuelpricefloat);
+			df.setRoundingMode(RoundingMode.DOWN);
+			values.put(DbAdapter.PRICE, Float.parseFloat(df.format(fuelpricefloat)));
 			values.put(DbAdapter.TOTAL_COST, Math.round(totalPrice*100.0)/100.0);
 		}
-		
-		adapter.insert(DbAdapter.TRIPS_TABLE, values);
-		
+		long insertResult = adapter.insert(DbAdapter.TRIPS_TABLE, values);	
+		if(insertResult != -1) {
+			Toast.makeText(getActivity(), "Trip saved successfully!", Toast.LENGTH_SHORT).show();
+			miles.setText("");
+			gallons.setText(""); 
+			fuelprice.setText("");	
+			miles.requestFocus();
+			mpgtext.setVisibility(View.GONE);
+			mpg.setVisibility(View.GONE);
+			mpg.setText("");
+		} else {
+			Toast.makeText(getActivity(), "Trip failed to save, try again!", Toast.LENGTH_SHORT).show();
+		}
 	}
 }
 

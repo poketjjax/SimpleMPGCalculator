@@ -115,12 +115,22 @@
 		    />  
 		    
 		<Button 
-		    android:id="@+id/reset"
+		    android:id="@+id/calculateResult"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-			android:text="@string/reset"
+			android:text="@string/calculate"
 			android:layout_alignBaseline="@id/saveResults"
 			android:layout_toLeftOf="@id/saveResults"
+		    />    
+		    
+		<Button 
+		    android:id="@+id/reset"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+			android:text="@string/reset"
+			android:layout_below="@id/saveResults"
+			android:layout_margin="15dp"
+			android:layout_centerHorizontal="true"
 		    />    
 	    
 	</RelativeLayout>

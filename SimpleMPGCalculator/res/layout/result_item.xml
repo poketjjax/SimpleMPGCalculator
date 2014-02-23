@@ -21,7 +21,7 @@
 		        android:visibility="invisible"
 		    	/>
 		    
-		    <ImageView 
+		    <ImageButton 
 			    android:id="@+id/cardBtn"
 			    android:background="@null"
 			    android:layout_width="wrap_content"
@@ -30,6 +30,7 @@
 			    android:contentDescription="@string/app_name"
 			    android:layout_alignParentRight="true"
 			    android:layout_alignParentTop="true"
+			    android:onClick="showPopup"
 			    />
 		    
 		    <TextView 
@@ -113,8 +114,7 @@
 		        android:layout_above="@id/price_item"
 		        android:layout_alignLeft="@id/price_item"
 		        android:text="@string/price" />			    
- 
-		        		    
+    
 	   </RelativeLayout>
  
 </FrameLayout>

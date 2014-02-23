@@ -2,33 +2,36 @@ package com.jackson.simplempgcalculator;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PastResults extends Fragment implements OnClickListener, PopupMenu.OnMenuItemClickListener  {
+public class PastResults extends Fragment implements OnClickListener, OnItemSelectedListener  {
 	
 	/* VARIABLES */
 	private Button delete;
-	private ImageView cardMenu;
-	public Boolean listIsEmpty = true;
-	public Integer rowId;
+	private static DbAdapter adapter;
+	private static ListView resultsList;
+	private static Context context;
+	public static Boolean listIsEmpty = true;
+	private static TextView emptyView;
 
+	/* LIFECYCLE METHODS */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.past_results, container, false);
@@ -42,27 +45,40 @@ public class PastResults extends Fragment implements OnClickListener, PopupMenu.
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+			
 		delete = (Button) getActivity().findViewById(R.id.delete_all);
 		delete.setOnClickListener(this);
+		Spinner spinner = (Spinner) getActivity().findViewById(R.id.sort_spinner);
+		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.sort_array, android.R.layout.simple_spinner_item);
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setOnItemSelectedListener(this);
 
-		populateResultsList();
+	    resultsList = (ListView) getView().findViewById(R.id.results_list);
+	    emptyView = (TextView) getView().findViewById(R.id.empty_view);
+	    resultsList.setEmptyView(emptyView);
+		context = getActivity();
+		adapter = new DbAdapter(getActivity());
+		adapter.open();
+		populateResultsList(context, spinner.getSelectedItemPosition());
 	}
 
-	public void populateResultsList() {
-		
-		cardMenu = (ImageView) getActivity().findViewById(R.id.cardBtn);
-		if(cardMenu == null) {
-			Toast.makeText(getActivity(), "it's null", Toast.LENGTH_SHORT).show();
-		} else {
-			
-		
-		cardMenu.setOnClickListener(this);
-		}
-		DbAdapter adapter = new DbAdapter(getActivity());
-		
-		adapter.open();
-		
-		Cursor cursor = adapter.select(DbAdapter.selectAll);
+	@Override
+	public void onDestroyView() {
+	    adapter.close();
+		super.onDestroyView();
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		//stop the keyboard from showing when re-opening app
+		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
+	}
+
+	/* Custom class methods */
+	public static void populateResultsList(Context context, int pos) {
+		Cursor cursor = adapter.select(DbAdapter.select[pos]);
 		
 		if(cursor.moveToFirst()) {
 			listIsEmpty = false;
@@ -79,9 +95,9 @@ public class PastResults extends Fragment implements OnClickListener, PopupMenu.
 		
 		
 		SimpleCursorAdapter myCursorAdapter;
-		myCursorAdapter = new SimpleCursorAdapter(getActivity(), R.layout.result_item, cursor, from, to);
+		myCursorAdapter = new SimpleCursorAdapter(context, R.layout.result_item, cursor, from, to);
 		
-		ListView resultsList = (ListView) getView().findViewById(R.id.results_list);
+		
 		if(resultsList != null){
 			resultsList.setAdapter(myCursorAdapter);
 			myCursorAdapter.setViewBinder(new resultsViewBinder());
@@ -110,61 +126,38 @@ public class PastResults extends Fragment implements OnClickListener, PopupMenu.
 	        .setPositiveButton(R.string.deleteYes, new DialogInterface.OnClickListener() {
 		        	@Override
 				    public void onClick(DialogInterface dialog, int which) {
-		        		DbAdapter adapter = new DbAdapter(getActivity());
-		        		adapter.open();
-		        		
 		        		int rows = adapter.delete();
-		        		
+
 		        		if(rows <= 0){
 		        			Toast.makeText(getActivity(), "No rows were deleted", Toast.LENGTH_SHORT).show();
 		        		} else {
 		        			Toast.makeText(getActivity(), "All trips successfully deleted", Toast.LENGTH_SHORT).show();
 		        		}
-		        		
-		        		populateResultsList();
+		        		populateResultsList(context, 0);
 			        }
 			})
 		    .setNegativeButton(R.string.deleteNo, null)
 		    .show();
 	}
-
-	public void showPopup(View v) {
-	    PopupMenu popup = new PopupMenu(getActivity(), v);
-	    popup.setOnMenuItemClickListener(this);
-	    MenuInflater inflater = popup.getMenuInflater();
-	    inflater.inflate(R.menu.card_menu, popup.getMenu());
-	    View view = (View)v.getParent();
-	    TextView cardId = (TextView) view.findViewById(R.id.rowId);
-	    rowId = Integer.parseInt(cardId.getText().toString());
-	    popup.show();
+	
+	public static void deleteCard(int rowId, int pos, Context context) {
+		int count;
+		count = adapter.deleteRow(rowId);
+		if(count > 0) {
+			Toast.makeText(context, "Trip deleted!", Toast.LENGTH_SHORT).show();
+			populateResultsList(context, pos);
+		} else {
+			Toast.makeText(context, "Deleting failed, try again", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override
-	public boolean onMenuItemClick(MenuItem item) {
-		switch(item.getItemId()) {
-			case R.id.card_delete:
-				deleteCard(rowId);
-				return true;
-			default:
-				return false;
-		}
+	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+		populateResultsList(getActivity(), pos);		
 	}
-	
-	public void deleteCard(int rowId) {
-		int count;
-		
-		DbAdapter adapter = new DbAdapter(getActivity());
-		adapter.open();
-		count = adapter.deleteRow(rowId);
-		adapter.close();
-		
-		if(count > 0) {
-			Toast.makeText(getActivity(), "Trip deleted!", Toast.LENGTH_SHORT).show();
-//			PastResults pastResults = new PastResults();
-//			pastResults.populateResultsList();
-		} else {
-			Toast.makeText(getActivity(), "Deleting failed, try again", Toast.LENGTH_SHORT).show();
-		}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> parent) {
 	}
 	
 }

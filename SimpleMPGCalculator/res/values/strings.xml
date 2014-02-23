@@ -27,5 +27,18 @@
     <string name="deleteYes">Delete</string>
     <string name="deleteNo">Cancel</string>
     <string name="cardDelete">delete</string>
+    <string name="sort">Sort: </string>
+    <string-array name="sort_array">
+        <item>Oldest to Newest</item>
+        <item>Newest to Oldest</item>
+        <item>Highest MPG to Lowest</item>
+        <item>Lowest MPG to Highest</item>
+        <item>Highest Total Cost to Lowest</item>
+        <item>Lowest Total Cost to Highest</item>
+        <item>Highest Gas Price to Lowest</item>
+        <item>Lowest Gas Price to Highest</item>
+    </string-array>
+    <string name="empty">There are no trips to display.\nClick on the Enter a Trip tab to enter one. </string>
+    <string name="calculate">Calculate</string>
 
 </resources>
