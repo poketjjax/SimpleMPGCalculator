@@ -3,8 +3,9 @@ package com.jackson.simplempgcalculator;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,7 +14,9 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickListener {
 		
@@ -34,7 +37,7 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
 		actionbar.setDisplayHomeAsUpEnabled(false);
 		actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-		EnterMileageFrag Fragment1 = new EnterMileageFrag();
+		EnterMileage Fragment1 = new EnterMileage();
 		PastResults Fragment2 = new PastResults();
 		
 		Tab tab1 = actionbar.newTab().setText("Enter a Trip");
@@ -59,10 +62,19 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
 		
 	    // Handle presses on the action bar items
 	    switch (item.getItemId()) {
-	        case R.id.action_settings:
-	        	//launch the settings activity
-	        	Intent intent = new Intent(this, preferences.class);
-	        	startActivity(intent);
+	        case R.id.about:
+	        	About aboutFrag = new About();
+	        	//used to test if the about fragment is being displayed. prevents from duplicate fragments being added to backstack
+	        	TextView aboutTest = (TextView) findViewById(R.id.about_message);
+	        	if(aboutTest != null) {
+	        		//do nothing
+	        	} else {
+	        		FragmentManager fragmentManager = getFragmentManager();
+	        		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+	        		fragmentTransaction.replace(R.id.container_layout, aboutFrag);
+	        		fragmentTransaction.addToBackStack(null);
+	        		fragmentTransaction.commit();
+	        	}
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);

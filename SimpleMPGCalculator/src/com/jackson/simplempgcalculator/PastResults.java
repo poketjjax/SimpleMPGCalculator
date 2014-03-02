@@ -1,5 +1,8 @@
 package com.jackson.simplempgcalculator;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
@@ -45,7 +48,7 @@ public class PastResults extends Fragment implements OnClickListener, OnItemSele
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-			
+
 		delete = (Button) getActivity().findViewById(R.id.delete_all);
 		delete.setOnClickListener(this);
 		Spinner spinner = (Spinner) getActivity().findViewById(R.id.sort_spinner);
@@ -53,6 +56,11 @@ public class PastResults extends Fragment implements OnClickListener, OnItemSele
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(spinnerAdapter);
 		spinner.setOnItemSelectedListener(this);
+		
+		//set up the ad banner
+	    AdView adView = (AdView) getActivity().findViewById(R.id.adView);
+	    AdRequest adRequest = new AdRequest.Builder().addTestDevice("8A9DA1B236989CF0344431DAB1CF42FB").build();
+	    adView.loadAd(adRequest);
 
 	    resultsList = (ListView) getView().findViewById(R.id.results_list);
 	    emptyView = (TextView) getView().findViewById(R.id.empty_view);

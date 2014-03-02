@@ -40,5 +40,7 @@
     </string-array>
     <string name="empty">There are no trips to display.\nClick on the Enter a Trip tab to enter one. </string>
     <string name="calculate">Calculate</string>
+    <string name="about">About</string>
+    <string name="about_paragraph">I\'ve created this app as an item to put on my resume. I\'m a current college student and plan to actively maintain this app for the foreseeable future.\nIf you have any suggestions for improvements, feel free to contact me directly via e-mail at jackson.wright69@gmail.com.\nI\'ve also posted all of the code for this application on my GitHub page which is located at https://github.com/poketjjax/SimpleMPGCalculator.\nThanks for installing, I hope you like it! </string>
 
 </resources>

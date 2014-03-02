@@ -39,6 +39,7 @@
 		        android:layout_height="wrap_content"
 		        android:layout_alignParentTop="true"
 		        android:layout_alignParentLeft="true"
+		        android:textSize="15sp"
 		        />
 		
 		    <TextView
@@ -46,15 +47,19 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_centerHorizontal="true"
-		        android:layout_marginTop="30dp"
-		        android:textSize="25sp" />
+		        android:layout_centerVertical="true"
+	        	android:textColor="#059400"
+		        android:paddingBottom="25dp"
+		        android:textSize="30sp"
+		         />
 		    
 		    <TextView
 		        android:id="@+id/miles_item"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_alignParentLeft="true"
-		        android:layout_alignParentBottom="true" />
+		        android:layout_alignParentBottom="true"
+		        android:textSize="15sp" />
 		    
 		    <TextView
 		        android:id="@+id/miles_label"
@@ -62,7 +67,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_above="@id/miles_item"
 		        android:layout_alignLeft="@id/miles_item"
-		        android:text="@string/miles" />
+		        android:text="@string/miles"
+		        android:textSize="15sp" />
 		    	
 		    <TextView
 		        android:id="@+id/gallons_item"
@@ -72,7 +78,8 @@
 		        android:layout_alignBottom="@+id/miles_item"
 		        android:layout_marginLeft="12dp"
 		        android:layout_marginRight="12dp"
-		        android:layout_toRightOf="@+id/miles_item" />
+		        android:layout_toRightOf="@+id/miles_item"
+		        android:textSize="15sp" />
 		    
 			<TextView
 		        android:id="@+id/gallons_label"
@@ -80,7 +87,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_above="@id/gallons_item"
 		        android:layout_alignLeft="@id/gallons_item"
-		        android:text="@string/gallons" />	
+		        android:text="@string/gallons"
+		        android:textSize="15sp" />	
 		        		        		
 		    <TextView
 		        android:id="@+id/cost_item"
@@ -89,7 +97,8 @@
 		        android:layout_alignBaseline="@+id/miles_item"
 		        android:layout_alignBottom="@+id/miles_item"
 		        android:layout_alignParentRight="true"
-		        android:layout_marginLeft="15dp" />
+		        android:layout_marginLeft="15dp"
+		        android:textSize="15sp" />
 		    
 			<TextView
 		        android:id="@+id/cost_label"
@@ -97,7 +106,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_above="@id/cost_item"
 		        android:layout_alignLeft="@id/cost_item"
-		        android:text="@string/cost" />  
+		        android:text="@string/cost"
+		        android:textSize="15sp" />  
 
 			<TextView
 		        android:id="@+id/price_item"
@@ -105,7 +115,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_alignBaseline="@+id/miles_item"
 		        android:layout_alignBottom="@+id/miles_item"
-		        android:layout_toLeftOf="@id/cost_item"/>
+		        android:layout_toLeftOf="@id/cost_item"
+		        android:textSize="15sp" />
 
 			<TextView
 		        android:id="@+id/price_label"
@@ -113,7 +124,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_above="@id/price_item"
 		        android:layout_alignLeft="@id/price_item"
-		        android:text="@string/price" />			    
+		        android:text="@string/price"
+		        android:textSize="15sp" />			    
     
 	   </RelativeLayout>
  

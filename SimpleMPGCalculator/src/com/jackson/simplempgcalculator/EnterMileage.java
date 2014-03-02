@@ -6,6 +6,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+
+import android.R.integer;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
@@ -24,7 +30,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class EnterMileageFrag extends Fragment implements View.OnClickListener, View.OnKeyListener {
+public class EnterMileage extends Fragment implements View.OnClickListener, View.OnKeyListener {
 
 	/* VARIABLES */
 	private EditText miles;
@@ -57,24 +63,11 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 		miles.requestFocus();
 	    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 	    imm.showSoftInput(miles, 0);
-		
-	    //create an instance of preferences to read in the values
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-	    boolean showFuelPrice = sharedPref.getBoolean("show_price", false);
 	    
-	    //hide the fuel price based on the settings checkbox. also set onkeylistener based on checkbox
-	    if(!showFuelPrice){
-	    	fuelprice.setVisibility(View.GONE);
-	    	fuelpricetxt.setVisibility(View.GONE);
-	    	gallons.setOnKeyListener(this);
-	    } else {
-	    	fuelprice.setVisibility(View.VISIBLE);
-	    	fuelpricetxt.setVisibility(View.VISIBLE);
-	    	fuelprice.setOnKeyListener(this);
-	    }
+	    //set onkey listener to calculate MPG when enter is pressed on the last text field
+	    fuelprice.setOnKeyListener(this);
 	}
 	
-
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -95,6 +88,11 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 		submit = (Button) getView().findViewById(R.id.saveResults);
 		calculate = (Button) getView().findViewById(R.id.calculateResult);
 		
+		//set up the ad banner
+	    AdView adView = (AdView) getActivity().findViewById(R.id.adView);
+	    AdRequest adRequest = new AdRequest.Builder().addTestDevice("8A9DA1B236989CF0344431DAB1CF42FB").build();
+	    adView.loadAd(adRequest);
+		
 		reset.setOnClickListener(this);
 		submit.setOnClickListener(this);
 		calculate.setOnClickListener(this);
@@ -103,12 +101,10 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 		adapter.open();	
 	}
 	
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.enter_mileage, container, false);
 	}
-	
 	
 	@Override
 	public void onPause() {
@@ -123,6 +119,7 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 		super.onDestroyView();
 	}
 
+	
 	/* Custom class methods */
 	@Override
 	public void onClick(View v) {
@@ -226,7 +223,6 @@ public class EnterMileageFrag extends Fragment implements View.OnClickListener, 
 		mpg.setVisibility(View.GONE);
 		mpg.setText("");
 	}
-
 
 	private void saveResults() {			
 		//create a date to store in the DB

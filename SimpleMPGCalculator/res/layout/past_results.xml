@@ -1,67 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#e5e5e5">
-
-    <RelativeLayout 
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    >
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical"
+	    android:background="#e5e5e5">
+	
+	    <RelativeLayout 
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        >
+	        <Button 
+	            android:id="@+id/delete_all"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/delete"
+	       		android:layout_alignParentRight="true"
+	       		android:layout_marginRight="6dp"
+	            />
+	                           
+	        <TextView 
+	            android:id="@+id/sort_label"
+	            android:layout_alignParentLeft="true"
+	            android:layout_alignBottom="@id/delete_all"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/sort"
+	            android:layout_marginRight="2dp"
+	            android:layout_marginLeft="10dp"
+	            android:layout_marginBottom="3dp"
+	            android:textSize="22sp"
+	            />
+	        
+	        <Spinner 
+	            android:id="@+id/sort_spinner"
+	            android:layout_width="140dp"
+	            android:layout_height="wrap_content"
+	            android:layout_toRightOf="@id/sort_label"
+	            android:layout_alignBottom="@id/delete_all"
+	            />
+	        
+		</RelativeLayout>
+			        		
+	    <ListView
+	        android:id="@+id/results_list" 
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="10dp"
+	        android:layout_marginRight="10dp"
+	        android:layout_marginTop="5dp"
+	        android:divider="@null"
+	        android:dividerHeight="10dp">
+	    </ListView>
+	   
+	    <!-- the text view will be shown when the trip table is empty -->
+		<TextView 
+			android:id="@+id/empty_view"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="30dp"
+			android:text="@string/empty"
+			android:textSize="22sp"
+			android:visibility="gone"
+			/> 
+		
+	</LinearLayout>
+			
+     <com.google.android.gms.ads.AdView 
+        android:id="@+id/adView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        >
-        <Button 
-            android:id="@+id/delete_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/delete"
-       		android:layout_alignParentRight="true"
-       		android:layout_marginRight="6dp"
-            />
-                           
-        <TextView 
-            android:id="@+id/sort_label"
-            android:layout_alignParentLeft="true"
-            android:layout_alignBottom="@id/delete_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sort"
-            android:layout_marginRight="2dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="3dp"
-            android:textSize="22sp"
-            />
-        
-        <Spinner 
-            android:id="@+id/sort_spinner"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/sort_label"
-            android:layout_alignBottom="@id/delete_all"
-            />
-        
-	</RelativeLayout>
-		        		
-    <ListView
-        android:id="@+id/results_list" 
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:divider="@null"
-        android:dividerHeight="10dp">
-    </ListView>
-   
-    <!-- the text view will be shown when the trip table is empty -->
-	<TextView 
-		android:id="@+id/empty_view"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_margin="30dp"
-		android:text="@string/empty"
-		android:textSize="22sp"
-		android:visibility="gone"
-		/> 
-    
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        ads:adUnitId="ca-app-pub-7155384865894271/4461793748"
+        ads:adSize="BANNER"/>
+     
+</RelativeLayout>

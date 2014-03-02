@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	>
+	
+	<FrameLayout
+    	android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="10dp"
+		android:background="@drawable/background_card"
+		>
+ 
+	<RelativeLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:layout_marginLeft="6dp"
+		android:layout_marginRight="6dp"
+		android:layout_marginTop="4dp"
+		android:layout_marginBottom="4dp"
+		>
+		    <TextView 
+		        android:id="@+id/about_message"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/about_paragraph"
+		        android:padding="12dp"
+		        android:textSize="16sp"
+		        />
+	</RelativeLayout>
+	</FrameLayout>		
+	
+	<com.google.android.gms.ads.AdView 
+       	android:id="@+id/adView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        ads:adUnitId="ca-app-pub-7155384865894271/4461793748"
+        ads:adSize="BANNER" 
+        />
+	   
+</RelativeLayout>  
+		        
