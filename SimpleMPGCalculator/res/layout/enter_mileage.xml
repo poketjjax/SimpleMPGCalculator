@@ -1,19 +1,14 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-	tools:context=".MainActivity" >
-
-	<RelativeLayout 
-	    android:layout_width="match_parent"
-	    android:id="@+id/enter_mileage_frag"
-	    android:layout_height="wrap_content"
-	    android:paddingBottom="@dimen/activity_vertical_margin"
-	    android:paddingLeft="@dimen/activity_horizontal_margin"
-	    android:paddingRight="@dimen/activity_horizontal_margin"
-	    android:paddingTop="@dimen/activity_vertical_margin">
-
+    xmlns:ads="http://schemas.android.com/apk/res-auto" 
+	android:layout_width="match_parent"
+	android:id="@+id/enter_mileage_frag"
+	android:layout_height="wrap_content"
+	android:paddingBottom="@dimen/activity_vertical_margin"
+	android:paddingLeft="@dimen/activity_horizontal_margin"
+	android:paddingRight="@dimen/activity_horizontal_margin"
+	android:paddingTop="@dimen/activity_vertical_margin">
     
 	    <EditText 
 	        android:id="@+id/tankmiles"
@@ -27,7 +22,9 @@
 	        android:hint="@string/tankmiles"
 	        android:focusable="true"
     		android:focusableInTouchMode="true"
-    		android:inputType="numberDecimal"/>
+    		android:inputType="numberDecimal"
+    		/>
+    		
 	    <TextView
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
@@ -72,6 +69,7 @@
 	        android:layout_below="@id/gallons"
     		android:focusableInTouchMode="true"
     		android:inputType="numberDecimal" />
+	    
 	    <TextView 
 	        android:id="@+id/fuelpricetext"
 	        android:layout_width="wrap_content"
@@ -82,7 +80,7 @@
 	        android:text="@string/enterprice" />
 	    
 	    
-	     <TextView 
+	    <TextView 
 	        android:id="@+id/mpg"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
@@ -92,7 +90,8 @@
 	        android:layout_below="@id/fuelprice"
 	        android:layout_marginTop="25dp"
 	        />
-	 	  <TextView 
+	     
+	 	<TextView 
 	        android:id="@+id/mpgtext"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
@@ -104,15 +103,30 @@
 	        android:paddingBottom="3dp"
 	        android:text="@string/mpgtxt"
 	        />
+	 	  		
+	 	<Button 
+		    android:id="@+id/reset"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+			android:text="@string/reset"
+			android:layout_alignParentBottom="true"
+			android:layout_margin="15dp"
+			android:textSize="16sp"
+			android:padding="5dp"
+			android:layout_centerHorizontal="true"
+			style="@style/resetBtnStyle"
+		    />
 
 		<Button 
 		    android:id="@+id/saveResults"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 			android:text="@string/save"
-			android:layout_below="@id/gallons"
-			android:layout_alignRight="@id/tankmiles"
-			android:layout_marginTop="160dp"
+			android:padding="20dp"
+			android:textSize="16sp"
+			android:layout_above="@id/reset"
+			android:layout_alignRight="@id/reset"
+			style="@style/saveBtnStyle"
 		    />  
 		    
 		<Button 
@@ -120,28 +134,13 @@
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 			android:text="@string/calculate"
-			android:layout_alignBaseline="@id/saveResults"
-			android:layout_toLeftOf="@id/saveResults"
+			android:layout_above="@id/reset"
+			android:padding="20dp"
+			android:textSize="16sp"
+			android:layout_alignLeft="@id/reset"
+			style="@style/calculateBtnStyle"
 		    />    
-		    
-		<Button 
-		    android:id="@+id/reset"
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-			android:text="@string/reset"
-			android:layout_below="@id/saveResults"
-			android:layout_margin="15dp"
-			android:layout_centerHorizontal="true"
-		    />    
-	    
-	   <com.google.android.gms.ads.AdView 
-        	android:id="@+id/adView"
-       	 	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:layout_below="@id/reset"
-       	 	ads:adUnitId="ca-app-pub-7155384865894271/4461793748"
-        	ads:adSize="BANNER"/>
 		     
-	</RelativeLayout>
-</ScrollView>
+</RelativeLayout>
+
 	

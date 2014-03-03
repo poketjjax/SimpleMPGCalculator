@@ -218,19 +218,21 @@ containing a value of this type.
         public static final int common_signin_btn_text_normal_light=0x7f020016;
         public static final int common_signin_btn_text_pressed_dark=0x7f020017;
         public static final int common_signin_btn_text_pressed_light=0x7f020018;
-        public static final int fiverr_icon=0x7f020019;
-        public static final int ic_action_overflow=0x7f02001a;
-        public static final int ic_launcher=0x7f02001b;
-        public static final int ic_plusone_medium_off_client=0x7f02001c;
-        public static final int ic_plusone_small_off_client=0x7f02001d;
-        public static final int ic_plusone_standard_off_client=0x7f02001e;
-        public static final int ic_plusone_tall_off_client=0x7f02001f;
+        public static final int delete_button=0x7f020019;
+        public static final int fiverr_icon=0x7f02001a;
+        public static final int ic_action_overflow=0x7f02001b;
+        public static final int ic_launcher=0x7f02001c;
+        public static final int ic_plusone_medium_off_client=0x7f02001d;
+        public static final int ic_plusone_small_off_client=0x7f02001e;
+        public static final int ic_plusone_standard_off_client=0x7f02001f;
+        public static final int ic_plusone_tall_off_client=0x7f020020;
+        public static final int main_buttons=0x7f020021;
     }
     public static final class id {
         public static final int about=0x7f060025;
         public static final int about_message=0x7f060005;
         public static final int adView=0x7f060006;
-        public static final int calculateResult=0x7f06000f;
+        public static final int calculateResult=0x7f060010;
         public static final int cardBtn=0x7f060019;
         public static final int card_delete=0x7f060024;
         public static final int container_layout=0x7f060012;
@@ -256,11 +258,11 @@ containing a value of this type.
         public static final int normal=0x7f060001;
         public static final int price_item=0x7f060022;
         public static final int price_label=0x7f060023;
-        public static final int reset=0x7f060010;
+        public static final int reset=0x7f06000e;
         public static final int results_list=0x7f060016;
         public static final int rowId=0x7f060018;
         public static final int satellite=0x7f060002;
-        public static final int saveResults=0x7f06000e;
+        public static final int saveResults=0x7f06000f;
         public static final int sort_label=0x7f060014;
         public static final int sort_spinner=0x7f060015;
         public static final int tankmiles=0x7f060008;
@@ -434,6 +436,10 @@ containing a value of this type.
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f0b0001;
+        public static final int calculateBtnStyle=0x7f0b0003;
+        public static final int deleteBtnStyle=0x7f0b0002;
+        public static final int resetBtnStyle=0x7f0b0005;
+        public static final int saveBtnStyle=0x7f0b0004;
     }
     public static final class xml {
         public static final int preferences=0x7f040000;

@@ -6,18 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-
-import android.R.integer;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -55,15 +47,16 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 	/* LIFECYCLE METHODS */
 	@Override
 	public void onResume() {
-	    super.onResume();
+		super.onResume();
 	    // Set title
 	    getActivity().setTitle(R.string.app_name);
 	    
 		//set the focus and pull up the keyboard for the first edit text field
-		miles.requestFocus();
+	    miles.requestFocus();
+	    getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 	    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-	    imm.showSoftInput(miles, 0);
-	    
+        imm.showSoftInput(miles, InputMethodManager.SHOW_IMPLICIT);
+
 	    //set onkey listener to calculate MPG when enter is pressed on the last text field
 	    fuelprice.setOnKeyListener(this);
 	}
@@ -87,11 +80,6 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 		reset = (Button) getView().findViewById(R.id.reset);
 		submit = (Button) getView().findViewById(R.id.saveResults);
 		calculate = (Button) getView().findViewById(R.id.calculateResult);
-		
-		//set up the ad banner
-	    AdView adView = (AdView) getActivity().findViewById(R.id.adView);
-	    AdRequest adRequest = new AdRequest.Builder().addTestDevice("8A9DA1B236989CF0344431DAB1CF42FB").build();
-	    adView.loadAd(adRequest);
 		
 		reset.setOnClickListener(this);
 		submit.setOnClickListener(this);
@@ -135,21 +123,7 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 			}	
 			break;
 		case R.id.calculateResult:
-        	if( miles.getText().toString().trim().equals("")){
-        		Toast toast = Toast.makeText(getActivity(), "Miles is required!", Toast.LENGTH_LONG);
-            	toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-            	toast.show();
-            	miles.setError("Miles is required!");
-            } else if(gallons.getText().toString().trim().equals("")){
-            	Toast toast = Toast.makeText(getActivity(), "Gallons is required!", Toast.LENGTH_LONG);
-            	toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-            	toast.show();
-            	gallons.setError("Gallons is required!");
-            } else {
-            	milesfloat = Float.parseFloat(miles.getText().toString());
-    	        gallonsfloat = Float.parseFloat(gallons.getText().toString());
-    	        calculateMPG(milesfloat, gallonsfloat, fuelpricefloat);
-            }
+			verifyInput();
 			break;
 		}	
 	}
@@ -158,35 +132,14 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
 		if((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)){
 	        	
-			if(fuelprice.getText().toString().equalsIgnoreCase("")){
-	        	fuelpricefloat = 0;
-	        }
-	        else{
-	        	fuelpricefloat = Float.parseFloat(fuelprice.getText().toString());
-	        }
-	        
 	        switch (keyCode) {
-	        	case KeyEvent.KEYCODE_DPAD_CENTER:
-	            case KeyEvent.KEYCODE_ENTER:
-	            	if( miles.getText().toString().trim().equals("")){
-	            		Toast toast = Toast.makeText(getActivity(), "Miles is required!", Toast.LENGTH_LONG);
-	                	toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-	                	toast.show();
-	                	miles.setError("Miles is required!");
-	                } else if(gallons.getText().toString().trim().equals("")){
-	                	Toast toast = Toast.makeText(getActivity(), "Gallons is required!", Toast.LENGTH_LONG);
-	                	toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-	                	toast.show();
-	                	gallons.setError("Gallons is required!");
-	                } else {
-	                	milesfloat = Float.parseFloat(miles.getText().toString());
-	        	        gallonsfloat = Float.parseFloat(gallons.getText().toString());
-	        	        calculateMPG(milesfloat, gallonsfloat, fuelpricefloat);
-	                }
-	                return true;
-	                
-	            default:
-	            break;
+	        case KeyEvent.KEYCODE_DPAD_CENTER:
+	        case KeyEvent.KEYCODE_ENTER:
+	            verifyInput();
+	            return true;
+	          
+	        default:
+	        	break;
 	        }
 	    }
 		return false;
@@ -255,6 +208,35 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 		} else {
 			Toast.makeText(getActivity(), "Trip failed to save, try again!", Toast.LENGTH_SHORT).show();
 		}
+	}
+	
+	private void verifyInput() {
+		//hide soft keyboard right away
+	    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+	    imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+	    
+		if(fuelprice.getText().toString().equalsIgnoreCase("")){
+        	fuelpricefloat = 0;
+        }
+        else{
+        	fuelpricefloat = Float.parseFloat(fuelprice.getText().toString());
+        }
+        
+    	if(miles.getText().toString().trim().equals("")){
+    		Toast toast = Toast.makeText(getActivity(), "Miles is required!", Toast.LENGTH_SHORT);
+        	toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        	toast.show();
+        	miles.setError("Miles is required!");
+        } else if(gallons.getText().toString().trim().equals("")){
+        	Toast toast = Toast.makeText(getActivity(), "Gallons is required!", Toast.LENGTH_SHORT);
+        	toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        	toast.show();
+        	gallons.setError("Gallons is required!");
+        } else {
+        	milesfloat = Float.parseFloat(miles.getText().toString());
+	        gallonsfloat = Float.parseFloat(gallons.getText().toString());
+	        calculateMPG(milesfloat, gallonsfloat, fuelpricefloat);
+        }
 	}
 }
 
