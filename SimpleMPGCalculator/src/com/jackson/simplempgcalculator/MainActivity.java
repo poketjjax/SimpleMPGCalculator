@@ -7,17 +7,17 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+import com.android.vending.billing.IabHelper;
+import com.android.vending.billing.IabResult;
 
 public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickListener {
 		
@@ -25,13 +25,29 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
 	private static Context context;
 	public Integer rowId;
 	public Integer pos;
+	private IabHelper mHelper;
 	
+	/* LIFECYCLE METHODS */	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
-
 		context = this;
+		
+		//start the in app purchase setup by making a connection to google play billing
+		String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqgpj4Y6Aq2N3nuXTaEeFht/vow67vkeM1hV8mLjnt3BpVgM5ZgV3aotJoJhSfOgXO1hiNq1s++ZBs1God2bySYCxpn6JTlqxMMtuAJPDOoBE2xzf1gxok/21RZNDAmzB9WeSeh2NgHhXHTMoIFxQJL4YhtkyD5TtLfE63UJ30iI7Qy/zQZFunXTS2IF34RWW07IXtptTOSvLj6YwCThb9GvNp2DMTYRq/YDRPNSykNu2D6tzEgau9XH1G3lcB7px7bmHrzOXLkxRoJ2sTdlqmXAxuqEUsZStZijF515HOdB4CAe86HgFOvHkePxrxDeTCFZDDs+Pno1f/UFJ75jAdQIDAQAB";
+		// compute your public key and store it in base64EncodedPublicKey
+		mHelper = new IabHelper(this, base64EncodedPublicKey);
+		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+			   public void onIabSetupFinished(IabResult result) {
+			      if (!result.isSuccess()) {
+			         // print error message from in app billing
+			         Log.e("In app billing result = ", "Problem setting up In-app Billing: " + result);
+			      } else {          
+			         Log.e("In app billing result = ", "Successful setup!!!!");
+			      } 
+			   }
+			});
 		
 		//set up the action bar
 		ActionBar actionbar = getActionBar();
@@ -49,7 +65,13 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
 		tab2.setTabListener(new tabListener(Fragment2));
 		actionbar.addTab(tab2);
 	}
-
+	
+	@Override
+	public void onDestroy() {
+	   super.onDestroy();
+	   if (mHelper != null) mHelper.dispose();
+	   mHelper = null;
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
