@@ -52,12 +52,5 @@ public class About extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 	}
 
-	@Override
-	public void onDestroyView() {
-		//restore the tabs to the actionbar by entering navigation mode 
-		ActionBar actionBar = getActivity().getActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		super.onDestroyView();
-	}
 
 }

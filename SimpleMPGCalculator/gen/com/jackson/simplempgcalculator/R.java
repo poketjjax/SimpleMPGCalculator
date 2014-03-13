@@ -227,44 +227,48 @@ containing a value of this type.
         public static final int ic_plusone_standard_off_client=0x7f02001f;
         public static final int ic_plusone_tall_off_client=0x7f020020;
         public static final int main_buttons=0x7f020021;
+        public static final int purchase_button=0x7f020022;
     }
     public static final class id {
-        public static final int about=0x7f060025;
+        public static final int about=0x7f060027;
         public static final int about_message=0x7f060005;
         public static final int adView=0x7f060006;
+        public static final int ads_message=0x7f060011;
         public static final int calculateResult=0x7f060010;
-        public static final int cardBtn=0x7f060019;
-        public static final int card_delete=0x7f060024;
-        public static final int container_layout=0x7f060012;
-        public static final int cost_item=0x7f060020;
-        public static final int cost_label=0x7f060021;
-        public static final int date=0x7f06001a;
-        public static final int delete_all=0x7f060013;
-        public static final int empty_view=0x7f060017;
+        public static final int cardBtn=0x7f06001b;
+        public static final int card_delete=0x7f060026;
+        public static final int container_layout=0x7f060014;
+        public static final int cost_item=0x7f060022;
+        public static final int cost_label=0x7f060023;
+        public static final int date=0x7f06001c;
+        public static final int delete_all=0x7f060015;
+        public static final int empty_view=0x7f060019;
         public static final int enter_mileage_frag=0x7f060007;
         public static final int fuelprice=0x7f06000a;
         public static final int fuelpricetext=0x7f06000b;
         public static final int gallons=0x7f060009;
-        public static final int gallons_item=0x7f06001e;
-        public static final int gallons_label=0x7f06001f;
+        public static final int gallons_item=0x7f060020;
+        public static final int gallons_label=0x7f060021;
+        public static final int hide_ads=0x7f060028;
         public static final int hybrid=0x7f060004;
-        public static final int main_view=0x7f060011;
-        public static final int miles_item=0x7f06001c;
-        public static final int miles_label=0x7f06001d;
+        public static final int main_view=0x7f060013;
+        public static final int miles_item=0x7f06001e;
+        public static final int miles_label=0x7f06001f;
         public static final int mpg=0x7f06000c;
-        public static final int mpg_item=0x7f06001b;
+        public static final int mpg_item=0x7f06001d;
         public static final int mpgtext=0x7f06000d;
         public static final int none=0x7f060000;
         public static final int normal=0x7f060001;
-        public static final int price_item=0x7f060022;
-        public static final int price_label=0x7f060023;
+        public static final int price_item=0x7f060024;
+        public static final int price_label=0x7f060025;
+        public static final int purchaseBtn=0x7f060012;
         public static final int reset=0x7f06000e;
-        public static final int results_list=0x7f060016;
-        public static final int rowId=0x7f060018;
+        public static final int results_list=0x7f060018;
+        public static final int rowId=0x7f06001a;
         public static final int satellite=0x7f060002;
         public static final int saveResults=0x7f06000f;
-        public static final int sort_label=0x7f060014;
-        public static final int sort_spinner=0x7f060015;
+        public static final int sort_label=0x7f060016;
+        public static final int sort_spinner=0x7f060017;
         public static final int tankmiles=0x7f060008;
         public static final int terrain=0x7f060003;
     }
@@ -274,9 +278,10 @@ containing a value of this type.
     public static final class layout {
         public static final int about=0x7f030000;
         public static final int enter_mileage=0x7f030001;
-        public static final int main_activity=0x7f030002;
-        public static final int past_results=0x7f030003;
-        public static final int result_item=0x7f030004;
+        public static final int hide_ads=0x7f030002;
+        public static final int main_activity=0x7f030003;
+        public static final int past_results=0x7f030004;
+        public static final int result_item=0x7f030005;
     }
     public static final class menu {
         public static final int card_menu=0x7f0c0000;
@@ -286,6 +291,7 @@ containing a value of this type.
         public static final int about=0x7f070037;
         public static final int about_paragraph=0x7f070038;
         public static final int action_settings=0x7f07001b;
+        public static final int ads_message=0x7f07003a;
         public static final int app_name=0x7f07001a;
         /**   Title for notification shown when GooglePlayServices needs to be
         enabled for a application to work. [CHAR LIMIT=70] 
@@ -397,10 +403,12 @@ containing a value of this type.
         public static final int enterprice=0x7f070020;
         public static final int fuelprice=0x7f070021;
         public static final int gallons=0x7f07002b;
+        public static final int hide_ads=0x7f070039;
         public static final int miles=0x7f07002a;
         public static final int mpgtxt=0x7f070024;
         public static final int past_results=0x7f070029;
         public static final int price=0x7f07002d;
+        public static final int purchase=0x7f07003b;
         public static final int reset=0x7f070022;
         public static final int save=0x7f070023;
         public static final int settings=0x7f070027;
@@ -438,6 +446,7 @@ containing a value of this type.
         public static final int AppTheme=0x7f0b0001;
         public static final int calculateBtnStyle=0x7f0b0003;
         public static final int deleteBtnStyle=0x7f0b0002;
+        public static final int purchaseBtnStyle=0x7f0b0006;
         public static final int resetBtnStyle=0x7f0b0005;
         public static final int saveBtnStyle=0x7f0b0004;
     }

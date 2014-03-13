@@ -1,5 +1,8 @@
 package com.jackson.simplempgcalculator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -15,9 +18,12 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.vending.billing.IabHelper;
+import com.android.vending.billing.IabHelper.QueryInventoryFinishedListener;
 import com.android.vending.billing.IabResult;
+import com.android.vending.billing.Inventory;
 
 public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickListener {
 		
@@ -25,7 +31,6 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
 	private static Context context;
 	public Integer rowId;
 	public Integer pos;
-	private IabHelper mHelper;
 	
 	/* LIFECYCLE METHODS */	
 	@Override
@@ -34,21 +39,6 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
 		setContentView(R.layout.main_activity);
 		context = this;
 		
-		//start the in app purchase setup by making a connection to google play billing
-		String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqgpj4Y6Aq2N3nuXTaEeFht/vow67vkeM1hV8mLjnt3BpVgM5ZgV3aotJoJhSfOgXO1hiNq1s++ZBs1God2bySYCxpn6JTlqxMMtuAJPDOoBE2xzf1gxok/21RZNDAmzB9WeSeh2NgHhXHTMoIFxQJL4YhtkyD5TtLfE63UJ30iI7Qy/zQZFunXTS2IF34RWW07IXtptTOSvLj6YwCThb9GvNp2DMTYRq/YDRPNSykNu2D6tzEgau9XH1G3lcB7px7bmHrzOXLkxRoJ2sTdlqmXAxuqEUsZStZijF515HOdB4CAe86HgFOvHkePxrxDeTCFZDDs+Pno1f/UFJ75jAdQIDAQAB";
-		// compute your public key and store it in base64EncodedPublicKey
-		mHelper = new IabHelper(this, base64EncodedPublicKey);
-		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-			   public void onIabSetupFinished(IabResult result) {
-			      if (!result.isSuccess()) {
-			         // print error message from in app billing
-			         Log.e("In app billing result = ", "Problem setting up In-app Billing: " + result);
-			      } else {          
-			         Log.e("In app billing result = ", "Successful setup!!!!");
-			      } 
-			   }
-			});
-		
 		//set up the action bar
 		ActionBar actionbar = getActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(false);
@@ -56,7 +46,7 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
 
 		EnterMileage Fragment1 = new EnterMileage();
 		PastResults Fragment2 = new PastResults();
-		
+
 		Tab tab1 = actionbar.newTab().setText("Enter a Trip");
 		tab1.setTabListener(new tabListener(Fragment1));
 		actionbar.addTab(tab1, true);
@@ -64,13 +54,6 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
 		Tab tab2 = actionbar.newTab().setText("View Past Results");
 		tab2.setTabListener(new tabListener(Fragment2));
 		actionbar.addTab(tab2);
-	}
-	
-	@Override
-	public void onDestroy() {
-	   super.onDestroy();
-	   if (mHelper != null) mHelper.dispose();
-	   mHelper = null;
 	}
 
 	@Override
@@ -99,6 +82,21 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
 	        		fragmentTransaction.commit();
 	        	}
 	            return true;
+	            
+	        case R.id.hide_ads:
+	        	HideAds hideAdsFrag = new HideAds();
+	        	//used to test if the about fragment is being displayed. prevents from duplicate fragments being added to backstack
+	        	TextView adsTest = (TextView) findViewById(R.id.ads_message);
+	        	if(adsTest != null) {
+	        		//do nothing
+	        	} else {
+	        		FragmentManager fragmentManager = getFragmentManager();
+	        		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+	        		fragmentTransaction.replace(R.id.container_layout, hideAdsFrag);
+	        		fragmentTransaction.addToBackStack(null);
+	        		fragmentTransaction.commit();
+	        	}
+	            return true;    
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

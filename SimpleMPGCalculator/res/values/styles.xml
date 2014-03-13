@@ -56,17 +56,30 @@
        <item name="android:padding">10dip</item>
    </style> 
    
-<style name="resetBtnStyle" parent="@android:style/Widget.Button">
-       <item name="android:textSize">15sp</item>
-       <item name="android:textStyle">bold</item>
-       <item name="android:textColor">#420004</item>
-       <item name="android:gravity">center</item>
-       <item name="android:shadowColor">#727472</item>
-       <item name="android:shadowDx">1</item>
-       <item name="android:shadowDy">1</item>
-       <item name="android:shadowRadius">0.6</item>
-       <item name="android:background">@drawable/main_buttons</item>
-       <item name="android:padding">10dip</item>
-</style>      
+	<style name="resetBtnStyle" parent="@android:style/Widget.Button">
+	       <item name="android:textSize">15sp</item>
+	       <item name="android:textStyle">bold</item>
+	       <item name="android:textColor">#420004</item>
+	       <item name="android:gravity">center</item>
+	       <item name="android:shadowColor">#727472</item>
+	       <item name="android:shadowDx">1</item>
+	       <item name="android:shadowDy">1</item>
+	       <item name="android:shadowRadius">0.6</item>
+	       <item name="android:background">@drawable/main_buttons</item>
+	       <item name="android:padding">10dip</item>
+	</style>      
     
+	<style name="purchaseBtnStyle" parent="@android:style/Widget.Button">
+	       <item name="android:textSize">15sp</item>
+	       <item name="android:textStyle">bold</item>
+	       <item name="android:textColor">#ffffff</item>
+	       <item name="android:gravity">center</item>
+	       <item name="android:shadowColor">#727472</item>
+	       <item name="android:shadowDx">1</item>
+	       <item name="android:shadowDy">1</item>
+	       <item name="android:shadowRadius">0.6</item>
+	       <item name="android:background">@drawable/purchase_button</item>
+	       <item name="android:padding">15dip</item>
+	</style> 
+	 
 </resources>

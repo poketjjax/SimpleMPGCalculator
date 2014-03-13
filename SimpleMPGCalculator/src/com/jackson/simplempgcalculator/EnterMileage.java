@@ -6,10 +6,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -51,6 +53,12 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 	    // Set title
 	    getActivity().setTitle(R.string.app_name);
 	    
+		//restore the tabs to the actionbar by entering navigation mode 
+		ActionBar actionBar = getActivity().getActionBar();
+		if(actionBar.getNavigationMode() == 0) {
+			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		}
+		
 		//set the focus and pull up the keyboard for the first edit text field
 	    miles.requestFocus();
 	    getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);

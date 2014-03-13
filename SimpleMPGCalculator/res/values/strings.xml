@@ -42,5 +42,8 @@
     <string name="calculate">Calculate</string>
     <string name="about">About</string>
     <string name="about_paragraph">I\'ve created this app as an item to put on my resume. I\'m a current college student and plan to actively maintain this app for the foreseeable future.\n\nIf you have any feature requests or other suggestions for improvements, feel free to contact me directly via e-mail at jackson.wright69@gmail.com.\nThanks for installing, I hope you like it! </string>
+    <string name="hide_ads">Hide Ads</string>
+    <string name="ads_message">If you want to get rid of ads and support me, the developer, make the 99 cent in app purchase below!</string>
+    <string name="purchase">Begin Order</string>
 
 </resources>
