@@ -4,16 +4,11 @@ package com.jackson.simplempgcalculator;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import android.widget.Toast;
 
 public class DbAdapter {
-
-
 
 	/* CONSTANTS */
 	/* Must increment this number when a table structure or constant is changed */
@@ -42,8 +37,6 @@ public class DbAdapter {
 	private static final String TRIPS_TABLE_CREATE = String.format("CREATE TABLE IF NOT EXISTS %s (%s integer primary key autoincrement, %s real, %s real, %s real, %s real, %s real, %s text)",
 			TRIPS_TABLE, ID, MILES, GALLONS, MPG, PRICE, TOTAL_COST, DATE);
 
-
-	
 	/* ----- VARIABLES ----- */
 	private Context ctx;
 	private SQLiteDatabase db;
@@ -79,7 +72,6 @@ public class DbAdapter {
 	public synchronized void close() {
 		db.close();
 	}
-	
 	
 	/* ----- NESTED CLASSES ----- */
 	private static class DbHelper extends SQLiteOpenHelper {

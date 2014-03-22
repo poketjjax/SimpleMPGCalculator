@@ -1,6 +1,5 @@
 package com.jackson.simplempgcalculator;
 
-import android.app.ActionBar;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -8,6 +7,7 @@ import android.preference.PreferenceFragment;
 
 public class preferences extends PreferenceActivity {
 
+	/* LIFECYCLE METHODS */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -18,7 +18,15 @@ public class preferences extends PreferenceActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
     }
+	
+	@Override
+	public void onResume() {
+	    super.onResume();
+	    // Set title
+	    setTitle(R.string.settings);	    
+	}
 
+	/* NESTED CLASS */
     public static class MyPreferenceFragment extends PreferenceFragment
     {
         @Override
@@ -28,12 +36,5 @@ public class preferences extends PreferenceActivity {
             addPreferencesFromResource(R.xml.preferences);
         }
     }
-	
-	@Override
-	public void onResume() {
-	    super.onResume();
-	    // Set title
-	    setTitle(R.string.settings);	    
-	}
 
 }

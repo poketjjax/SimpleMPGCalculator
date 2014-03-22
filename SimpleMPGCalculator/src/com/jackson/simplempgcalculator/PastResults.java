@@ -1,8 +1,6 @@
 package com.jackson.simplempgcalculator;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
@@ -10,6 +8,8 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -24,6 +24,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.vending.billing.IabHelper;
+import com.android.vending.billing.IabResult;
+import com.android.vending.billing.Inventory;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 public class PastResults extends Fragment implements OnClickListener, OnItemSelectedListener  {
 	
 	/* VARIABLES */
@@ -33,6 +39,8 @@ public class PastResults extends Fragment implements OnClickListener, OnItemSele
 	private static Context context;
 	public static Boolean listIsEmpty = true;
 	private static TextView emptyView;
+	private IabHelper mHelper;
+	private Boolean isPurchased = false; 
 
 	/* LIFECYCLE METHODS */
 	@Override
@@ -48,7 +56,8 @@ public class PastResults extends Fragment implements OnClickListener, OnItemSele
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		setHasOptionsMenu(true);
+		
 		delete = (Button) getActivity().findViewById(R.id.delete_all);
 		delete.setOnClickListener(this);
 		Spinner spinner = (Spinner) getActivity().findViewById(R.id.sort_spinner);
@@ -56,11 +65,6 @@ public class PastResults extends Fragment implements OnClickListener, OnItemSele
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(spinnerAdapter);
 		spinner.setOnItemSelectedListener(this);
-		
-		//set up the ad banner
-	    AdView adView = (AdView) getActivity().findViewById(R.id.adView);
-	    AdRequest adRequest = new AdRequest.Builder().addTestDevice("8A9DA1B236989CF0344431DAB1CF42FB").build();
-	    adView.loadAd(adRequest);
 
 	    resultsList = (ListView) getView().findViewById(R.id.results_list);
 	    emptyView = (TextView) getView().findViewById(R.id.empty_view);
@@ -82,9 +86,82 @@ public class PastResults extends Fragment implements OnClickListener, OnItemSele
 		super.onResume();
 		//stop the keyboard from showing when re-opening app
 		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
+		
+		//restore the tabs to the actionbar by entering navigation mode 
+		ActionBar actionBar = getActivity().getActionBar();
+		if(actionBar.getNavigationMode() == 0) {
+			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		}
+		
+		//start the in app purchase setup by making a connection to google play billing
+		// compute your public key and store it in base64EncodedPublicKey
+		mHelper = new IabHelper(getActivity(), getActivity().getResources().getString(R.string.base64PublicKey));
+		mHelper.enableDebugLogging(true, "MPGtag");
+		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+			public void onIabSetupFinished(IabResult result) {
+				if (!result.isSuccess()) {
+					// Do nothing
+			    } else {
+			    	mHelper.queryInventoryAsync(mGotInventoryListener);
+			    } 
+			}
+		});
 	}
 
-	/* Custom class methods */
+	/* Inherited methods */
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()) {
+		case R.id.delete_all:
+			//check to see if there are any records in the listview before proceeding
+			if(listIsEmpty) {
+				Toast.makeText(getActivity(), "There are no records to delete", Toast.LENGTH_SHORT).show();
+			} else {
+				deleteAllRecords();
+			}
+			break;
+		}	
+	}
+	
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+		populateResultsList(getActivity(), pos);		
+	}
+	
+	@Override
+	public void onNothingSelected(AdapterView<?> parent) {
+	}
+	
+	IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
+		public void onQueryInventoryFinished(IabResult result, Inventory inv) {			
+			if (result.isFailure()) {
+				//this means there are no items to query, so the purchase has been made 
+				if(result.getResponse() == -1003) {
+					hideAd();
+		    	} else {
+		    		createAd();
+		    	}
+		    } else {
+			    // has the user paid to hide ads?
+			    isPurchased = inv.hasPurchase(getActivity().getResources().getString(R.string.SKU_ADS));        
+			    if(isPurchased) {
+			    	hideAd();
+			    } else {
+			    	createAd();
+			    }
+		    }
+		}
+	};
+	
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		if(isPurchased) {
+			MenuItem item = menu.getItem(0).setVisible(false);
+		}
+		super.onPrepareOptionsMenu(menu);
+	}
+	
+	/* Custom methods */
 	public static void populateResultsList(Context context, int pos) {
 		Cursor cursor = adapter.select(DbAdapter.select[pos]);
 		
@@ -110,20 +187,6 @@ public class PastResults extends Fragment implements OnClickListener, OnItemSele
 			resultsList.setAdapter(myCursorAdapter);
 			myCursorAdapter.setViewBinder(new resultsViewBinder());
 		}
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch(v.getId()) {
-		case R.id.delete_all:
-			//check to see if there are any records in the listview before proceeding
-			if(listIsEmpty) {
-				Toast.makeText(getActivity(), "There are no records to delete", Toast.LENGTH_SHORT).show();
-			} else {
-				deleteAllRecords();
-			}
-			break;
-		}	
 	}
 
 	private void deleteAllRecords() {		
@@ -159,13 +222,25 @@ public class PastResults extends Fragment implements OnClickListener, OnItemSele
 		}
 	}
 
-	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-		populateResultsList(getActivity(), pos);		
+	private void createAd() {
+		//set up the ad banner
+	    AdView adView = (AdView) getActivity().findViewById(R.id.adView);
+	    AdRequest adRequest = new AdRequest.Builder().addTestDevice("8A9DA1B236989CF0344431DAB1CF42FB").build();
+	    adView.loadAd(adRequest);
 	}
-
-	@Override
-	public void onNothingSelected(AdapterView<?> parent) {
+	
+	private void hideAd() {
+		isPurchased = true;
+		final AdView hideAdView = (AdView) getActivity().findViewById(R.id.adView);
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+		    public void run() {
+				if(hideAdView != null) {
+					hideAdView.setEnabled(false);
+			        hideAdView.setVisibility(View.GONE);
+				}
+		    }
+		});
 	}
 	
 }

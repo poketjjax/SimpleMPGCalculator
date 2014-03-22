@@ -45,5 +45,8 @@
     <string name="hide_ads">Hide Ads</string>
     <string name="ads_message">If you want to get rid of ads and support me, the developer, make the 99 cent in app purchase below!</string>
     <string name="purchase">Begin Order</string>
+    <string name="purchase_successful">You have successfully paid to hide ads! If you still see ads, please restart the application. If that doesn\'t work, please e-mail me right away at jackson.wright69@gmail.com so I can fix it! Thank you for supporting me!</string>
+    <string name="base64PublicKey">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqgpj4Y6Aq2N3nuXTaEeFht/vow67vkeM1hV8mLjnt3BpVgM5ZgV3aotJoJhSfOgXO1hiNq1s++ZBs1God2bySYCxpn6JTlqxMMtuAJPDOoBE2xzf1gxok/21RZNDAmzB9WeSeh2NgHhXHTMoIFxQJL4YhtkyD5TtLfE63UJ30iI7Qy/zQZFunXTS2IF34RWW07IXtptTOSvLj6YwCThb9GvNp2DMTYRq/YDRPNSykNu2D6tzEgau9XH1G3lcB7px7bmHrzOXLkxRoJ2sTdlqmXAxuqEUsZStZijF515HOdB4CAe86HgFOvHkePxrxDeTCFZDDs+Pno1f/UFJ75jAdQIDAQAB</string>
+    <string name="SKU_ADS">hide_ads</string>
 
 </resources>

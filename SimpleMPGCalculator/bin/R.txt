@@ -115,6 +115,7 @@ int layout past_results 0x7f030004
 int layout result_item 0x7f030005
 int menu card_menu 0x7f0c0000
 int menu menu_bar 0x7f0c0001
+int string SKU_ADS 0x7f07003e
 int string about 0x7f070037
 int string about_paragraph 0x7f070038
 int string action_settings 0x7f07001b
@@ -126,6 +127,7 @@ int string auth_client_needs_update_title 0x7f070017
 int string auth_client_play_services_err_notification_msg 0x7f070018
 int string auth_client_requested_by_msg 0x7f070019
 int string auth_client_using_bad_version_title 0x7f070014
+int string base64PublicKey 0x7f07003d
 int string calculate 0x7f070036
 int string cardDelete 0x7f070033
 int string common_google_play_services_enable_button 0x7f070006
@@ -168,6 +170,7 @@ int string mpgtxt 0x7f070024
 int string past_results 0x7f070029
 int string price 0x7f07002d
 int string purchase 0x7f07003b
+int string purchase_successful 0x7f07003c
 int string reset 0x7f070022
 int string save 0x7f070023
 int string settings 0x7f070027

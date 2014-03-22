@@ -2,11 +2,9 @@ package com.jackson.simplempgcalculator;
 
 import android.app.ActionBar;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.vending.billing.IabHelper;
@@ -29,10 +28,10 @@ public class HideAds extends Fragment implements OnClickListener, OnIabPurchaseF
 	
 	/* VARIABLES */	
 	private IabHelper mHelper;
-	private final String SKU_ADS = "android.test.purchased";
 	private Button purchase;
 	private Integer requestCode = 11;
 	private Boolean isPurchased; 
+	private TextView textView;
 	
 	/* LIFECYCLE METHODS */
 	@Override
@@ -49,21 +48,18 @@ public class HideAds extends Fragment implements OnClickListener, OnIabPurchaseF
 		actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		
 		//start the in app purchase setup by making a connection to google play billing
-		String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqgpj4Y6Aq2N3nuXTaEeFht/vow67vkeM1hV8mLjnt3BpVgM5ZgV3aotJoJhSfOgXO1hiNq1s++ZBs1God2bySYCxpn6JTlqxMMtuAJPDOoBE2xzf1gxok/21RZNDAmzB9WeSeh2NgHhXHTMoIFxQJL4YhtkyD5TtLfE63UJ30iI7Qy/zQZFunXTS2IF34RWW07IXtptTOSvLj6YwCThb9GvNp2DMTYRq/YDRPNSykNu2D6tzEgau9XH1G3lcB7px7bmHrzOXLkxRoJ2sTdlqmXAxuqEUsZStZijF515HOdB4CAe86HgFOvHkePxrxDeTCFZDDs+Pno1f/UFJ75jAdQIDAQAB";
 		// compute your public key and store it in base64EncodedPublicKey
-		mHelper = new IabHelper(getActivity(), base64EncodedPublicKey);
+		mHelper = new IabHelper(getActivity(), getActivity().getResources().getString(R.string.base64PublicKey));
 		mHelper.enableDebugLogging(true, "MPGtag");
 		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
 			public void onIabSetupFinished(IabResult result) {
 				if (!result.isSuccess()) {
-					// print error message from in app billing
-					Log.e("In app billing result = ", "Problem setting up In-app Billing: " + result);
+					// Do nothing
 			    } else {
 			    	mHelper.queryInventoryAsync(mGotInventoryListener);
 			    } 
 			}
 		});
-		
 	}
 	
 	@Override
@@ -76,18 +72,15 @@ public class HideAds extends Fragment implements OnClickListener, OnIabPurchaseF
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {	
     	setHasOptionsMenu(true);
-		//set up the ad banner
-	    AdView adView = (AdView) getActivity().findViewById(R.id.adView);
-	    AdRequest adRequest = new AdRequest.Builder().addTestDevice("8A9DA1B236989CF0344431DAB1CF42FB").build();
-	    adView.loadAd(adRequest);
-	    
+    	
+	    textView = (TextView) getActivity().findViewById(R.id.ads_message);
 	    purchase = (Button) getActivity().findViewById(R.id.purchaseBtn);
 	    purchase.setOnClickListener(this);
 	    
 		super.onActivityCreated(savedInstanceState);
 	}
 
-	/* inherited methods */
+	/* Inherited methods */
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -99,17 +92,9 @@ public class HideAds extends Fragment implements OnClickListener, OnIabPurchaseF
 			break;
 		}
 	}
-
-	private void launchPurchase() {
-		mHelper.launchPurchaseFlow(getActivity(), SKU_ADS, requestCode, this);
-	}
-	
-
 	
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    Log.e("activity Result==", "onActivityResult(" + requestCode + "," + resultCode + "," + data);
-		
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {		
 	    // Pass on the activity result to the helper for handling
 	    if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
 	        // not handled, so handle it ourselves (here's where you'd
@@ -117,48 +102,36 @@ public class HideAds extends Fragment implements OnClickListener, OnIabPurchaseF
 	        // billing...
 	        super.onActivityResult(requestCode, resultCode, data);
 	    }
-	    else {
-	        Log.e("activity Result==", "onActivityResult handled by IABUtil.");
-	    }
 	}
 
 	@Override
 	public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
 		if(result.isFailure()) {
 			Toast.makeText(getActivity(), result.getMessage(), Toast.LENGTH_SHORT).show();
-		} else if(purchase.getSku().equals(SKU_ADS)) {
-			Toast.makeText(getActivity(), "purchase successfull!!!", Toast.LENGTH_SHORT).show();
-        	About aboutFrag = new About();
-    		FragmentManager fragmentManager = getFragmentManager();
-    		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-    		fragmentTransaction.replace(R.id.container_layout, aboutFrag);
-    		fragmentTransaction.commit();
+		} else if(purchase.getSku().equals(getActivity().getResources().getString(R.string.SKU_ADS))) {
+			Toast.makeText(getActivity(), "Purchase Successfull!", Toast.LENGTH_SHORT).show();
+        	changeText();
 		}
 	}
 	
 	IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
 		public void onQueryInventoryFinished(IabResult result, Inventory inv) {			
 			if (result.isFailure()) {
-				Log.e("error querying inventory", "failed message==  " + result.getResponse());
-		    	
 				//this means there are no items to query, so the purchase has been made 
 				if(result.getResponse() == -1003) {
-					About aboutFrag = new About();
-			    	FragmentManager fragmentManager = getFragmentManager();
-		        	FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		        	fragmentTransaction.replace(R.id.container_layout, aboutFrag);
-		        	fragmentTransaction.commit();
+					changeText();
+		    	} else {
+		    		Toast.makeText(getActivity(), "Couldn't connect to Google's Server. Try again later", Toast.LENGTH_LONG).show();
+		    		createAd();
 		    	}
-		    }
-		    // has the user paid to hide ads?
-		    isPurchased = inv.hasPurchase(SKU_ADS);        
-		    Toast.makeText(getActivity(), Boolean.toString(isPurchased), Toast.LENGTH_SHORT).show();
-		    if(isPurchased) {
-		    	About aboutFrag = new About();
-		    	FragmentManager fragmentManager = getFragmentManager();
-	        	FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-	        	fragmentTransaction.replace(R.id.container_layout, aboutFrag);
-	        	fragmentTransaction.commit();
+		    } else {
+			    // has the user paid to hide ads?
+			    isPurchased = inv.hasPurchase(getActivity().getResources().getString(R.string.SKU_ADS));        
+			    if(isPurchased) {
+			    	changeText();
+			    } else {
+			    	createAd();
+			    }
 		    }
 		}
 	};
@@ -169,6 +142,39 @@ public class HideAds extends Fragment implements OnClickListener, OnIabPurchaseF
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
+	/* Custom methods */
+	private void launchPurchase() {
+		mHelper.launchPurchaseFlow(getActivity(), getActivity().getResources().getString(R.string.SKU_ADS), requestCode, this);
+	}
+	
+	private void changeText() {
+		purchase.setVisibility(View.GONE);
+		textView.setText(getResources().getString(R.string.purchase_successful));
+		Linkify.addLinks(textView, Linkify.ALL);
+		hideAd();
+	}
+	
+	private void createAd() {
+		//set up the ad banner
+	    AdView adView = (AdView) getActivity().findViewById(R.id.adView);
+	    AdRequest adRequest = new AdRequest.Builder().addTestDevice("8A9DA1B236989CF0344431DAB1CF42FB").build();
+	    adView.loadAd(adRequest);
+	}
+	
+	private void hideAd() {
+		isPurchased = true;
+		final AdView hideAdView = (AdView) getActivity().findViewById(R.id.adView);
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+		    public void run() {
+				if(hideAdView != null) {
+					hideAdView.setEnabled(false);
+			        hideAdView.setVisibility(View.GONE);
+				}
+		    }
+		});
+	}
+	
 }
 
 

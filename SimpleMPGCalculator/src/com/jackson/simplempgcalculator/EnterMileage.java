@@ -6,6 +6,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import com.android.vending.billing.IabHelper;
+import com.android.vending.billing.IabResult;
+import com.android.vending.billing.Inventory;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.ContentValues;
@@ -15,6 +21,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -43,8 +51,9 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 	private float totalPrice;
 	private String mpgString;
 	private static DbAdapter adapter;
+	private IabHelper mHelper;
+	private Boolean isPurchased = false; 
 	public DecimalFormat df = new DecimalFormat("##.##");
-	
 	
 	/* LIFECYCLE METHODS */
 	@Override
@@ -67,11 +76,26 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 
 	    //set onkey listener to calculate MPG when enter is pressed on the last text field
 	    fuelprice.setOnKeyListener(this);
+	    
+		//start the in app purchase setup by making a connection to google play billing
+		// compute your public key and store it in base64EncodedPublicKey
+		mHelper = new IabHelper(getActivity(), getActivity().getResources().getString(R.string.base64PublicKey));
+		mHelper.enableDebugLogging(true, "MPGtag");
+		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+			public void onIabSetupFinished(IabResult result) {
+				if (!result.isSuccess()) {
+					// Do nothing
+			    } else {
+			    	mHelper.queryInventoryAsync(mGotInventoryListener);
+			    } 
+			}
+		});
 	}
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		setHasOptionsMenu(true);
 		
 		miles = (EditText) getView().findViewById(R.id.tankmiles);
 		gallons = (EditText) getView().findViewById(R.id.gallons);
@@ -115,8 +139,7 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 		super.onDestroyView();
 	}
 
-	
-	/* Custom class methods */
+	/* Inherited methods */
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()) {
@@ -153,10 +176,10 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 		return false;
 	}
 	
+	/* Custom methods */
 	public void calculateMPG(float milesint, float gallonsint, float fuelpriceint) {
 		totalmpg = milesint/gallonsint;
 		mpgString = String.format("%.2f", totalmpg);
-		
 		
 		if(fuelpriceint != 0){
 			df.setRoundingMode(RoundingMode.DOWN);
@@ -246,6 +269,36 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 	        calculateMPG(milesfloat, gallonsfloat, fuelpricefloat);
         }
 	}
+	
+	IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
+		public void onQueryInventoryFinished(IabResult result, Inventory inv) {			
+			if (result.isFailure()) {
+				//this means there are no items to query, so the purchase has been made 
+				if(result.getResponse() == -1003) {
+					isPurchased = true;
+		    	} else {
+		    		isPurchased = false;
+		    	}
+		    } else {
+			    // has the user paid to hide ads?
+			    isPurchased = inv.hasPurchase(getActivity().getResources().getString(R.string.SKU_ADS));        
+			    if(isPurchased) {
+					isPurchased = true;
+			    } else {
+					isPurchased = false;
+			    }
+		    }
+		}
+	};
+	
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		if(isPurchased) {
+			MenuItem item = menu.getItem(0).setVisible(false);
+		}
+		super.onPrepareOptionsMenu(menu);
+	}
+	
 }
 
 

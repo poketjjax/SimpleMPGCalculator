@@ -1,8 +1,5 @@
 package com.jackson.simplempgcalculator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -10,7 +7,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,12 +14,6 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.vending.billing.IabHelper;
-import com.android.vending.billing.IabHelper.QueryInventoryFinishedListener;
-import com.android.vending.billing.IabResult;
-import com.android.vending.billing.Inventory;
 
 public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickListener {
 		
@@ -63,6 +53,7 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
 		return true;
 	}
 	
+	/* Inherited methods */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
@@ -78,7 +69,9 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
 	        		FragmentManager fragmentManager = getFragmentManager();
 	        		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 	        		fragmentTransaction.replace(R.id.container_layout, aboutFrag);
-	        		fragmentTransaction.addToBackStack(null);
+	        		if(fragmentTransaction.isAddToBackStackAllowed()) {
+	        			fragmentTransaction.addToBackStack(null);
+	        		}
 	        		fragmentTransaction.commit();
 	        	}
 	            return true;
@@ -93,7 +86,9 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
 	        		FragmentManager fragmentManager = getFragmentManager();
 	        		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 	        		fragmentTransaction.replace(R.id.container_layout, hideAdsFrag);
-	        		fragmentTransaction.addToBackStack(null);
+	        		if(fragmentTransaction.isAddToBackStackAllowed()) {
+	        			fragmentTransaction.addToBackStack(null);
+	        		}
 	        		fragmentTransaction.commit();
 	        	}
 	            return true;    
@@ -102,6 +97,18 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
 	    }
 	}
 	
+	@Override
+	public boolean onMenuItemClick(MenuItem item) {
+		switch(item.getItemId()) {
+			case R.id.card_delete:
+				PastResults.deleteCard(rowId, pos, context);
+				return true;
+			default:
+				return false;
+		}
+	}
+	
+	/* Custom methods */
 	public void showPopup(View v) {
 	    PopupMenu popup = new PopupMenu(this, v);
 	    popup.setOnMenuItemClickListener(this);
@@ -118,17 +125,6 @@ public class MainActivity extends Activity implements PopupMenu.OnMenuItemClickL
 	    popup.show();
 	}
 
-	@Override
-	public boolean onMenuItemClick(MenuItem item) {
-		switch(item.getItemId()) {
-			case R.id.card_delete:
-				PastResults.deleteCard(rowId, pos, context);
-				return true;
-			default:
-				return false;
-		}
-	}
-	
 }
 
 

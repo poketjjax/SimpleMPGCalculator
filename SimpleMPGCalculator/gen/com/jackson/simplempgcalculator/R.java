@@ -288,6 +288,7 @@ containing a value of this type.
         public static final int menu_bar=0x7f0c0001;
     }
     public static final class string {
+        public static final int SKU_ADS=0x7f07003e;
         public static final int about=0x7f070037;
         public static final int about_paragraph=0x7f070038;
         public static final int action_settings=0x7f07001b;
@@ -316,6 +317,7 @@ containing a value of this type.
         [CHAR LIMIT=70] 
          */
         public static final int auth_client_using_bad_version_title=0x7f070014;
+        public static final int base64PublicKey=0x7f07003d;
         public static final int calculate=0x7f070036;
         public static final int cardDelete=0x7f070033;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
@@ -409,6 +411,7 @@ containing a value of this type.
         public static final int past_results=0x7f070029;
         public static final int price=0x7f07002d;
         public static final int purchase=0x7f07003b;
+        public static final int purchase_successful=0x7f07003c;
         public static final int reset=0x7f070022;
         public static final int save=0x7f070023;
         public static final int settings=0x7f070027;

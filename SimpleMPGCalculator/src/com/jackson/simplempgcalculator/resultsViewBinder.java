@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 public class resultsViewBinder implements ViewBinder, android.widget.SimpleCursorAdapter.ViewBinder {
 
+	/* Inherited methods */
 	@Override
 	public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 		
@@ -35,7 +36,6 @@ public class resultsViewBinder implements ViewBinder, android.widget.SimpleCurso
 	    default:
 		return false;
 		}
-		
 	}
 
 }

@@ -76,8 +76,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_alignBaseline="@+id/miles_item"
 		        android:layout_alignBottom="@+id/miles_item"
-		        android:layout_marginLeft="12dp"
-		        android:layout_marginRight="12dp"
+		        android:layout_marginLeft="17dp"
+		        android:layout_marginRight="17dp"
 		        android:layout_toRightOf="@+id/miles_item"
 		        android:textSize="15sp" />
 		    
