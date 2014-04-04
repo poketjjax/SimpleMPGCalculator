@@ -1,23 +1,14 @@
 package com.jackson.simplempgcalculator;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import com.android.vending.billing.IabHelper;
-import com.android.vending.billing.IabResult;
-import com.android.vending.billing.Inventory;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -31,6 +22,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.vending.billing.IabHelper;
+import com.android.vending.billing.IabResult;
+import com.android.vending.billing.Inventory;
 
 public class EnterMileage extends Fragment implements View.OnClickListener, View.OnKeyListener {
 
@@ -53,7 +48,6 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 	private static DbAdapter adapter;
 	private IabHelper mHelper;
 	private Boolean isPurchased = false; 
-	public DecimalFormat df = new DecimalFormat("##.##");
 	
 	/* LIFECYCLE METHODS */
 	@Override
@@ -175,6 +169,14 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 	    }
 		return false;
 	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		if(isPurchased) {
+			MenuItem item = menu.getItem(0).setVisible(false);
+		}
+		super.onPrepareOptionsMenu(menu);
+	}
 	
 	/* Custom methods */
 	public void calculateMPG(float milesint, float gallonsint, float fuelpriceint) {
@@ -182,9 +184,7 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 		mpgString = String.format("%.2f", totalmpg);
 		
 		if(fuelpriceint != 0){
-			df.setRoundingMode(RoundingMode.DOWN);
-			String tempfuelprice = df.format(fuelpriceint);
-			fuelpriceint = Float.parseFloat(tempfuelprice);
+			fuelpriceint = truncate(fuelpriceint);
 			fuelpriceint += 0.009;
 			totalPrice = (fuelpriceint * gallonsint);
 		}
@@ -222,8 +222,7 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 			values.put(DbAdapter.PRICE, 0.00);
 			values.put(DbAdapter.TOTAL_COST, 0.00);
 		} else {
-			df.setRoundingMode(RoundingMode.DOWN);
-			values.put(DbAdapter.PRICE, Float.parseFloat(df.format(fuelpricefloat)));
+			values.put(DbAdapter.PRICE, truncate(fuelpricefloat));
 			values.put(DbAdapter.TOTAL_COST, Math.round(totalPrice*100.0)/100.0);
 		}
 		long insertResult = adapter.insert(DbAdapter.TRIPS_TABLE, values);	
@@ -291,12 +290,17 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 		}
 	};
 	
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		if(isPurchased) {
-			MenuItem item = menu.getItem(0).setVisible(false);
+	private float truncate(Float fullPriceFloat) {
+		String tempPrice = fullPriceFloat.toString();
+		Float truncatedFuelPrice;
+		if(tempPrice.indexOf(".") != -1) {
+			int decimalSpot = tempPrice.indexOf(".");
+			tempPrice = tempPrice.substring(0, decimalSpot + 3);
+			truncatedFuelPrice = Float.parseFloat(tempPrice);
+		} else {
+			return fuelpricefloat;
 		}
-		super.onPrepareOptionsMenu(menu);
+		return truncatedFuelPrice;
 	}
 	
 }
