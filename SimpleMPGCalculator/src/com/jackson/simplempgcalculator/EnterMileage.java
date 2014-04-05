@@ -9,6 +9,7 @@ import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -187,6 +188,8 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 			fuelpriceint = truncate(fuelpriceint);
 			fuelpriceint += 0.009;
 			totalPrice = (fuelpriceint * gallonsint);
+		} else {
+			totalPrice = 0;
 		}
 		
 		mpg.setVisibility(View.VISIBLE);
@@ -293,8 +296,10 @@ public class EnterMileage extends Fragment implements View.OnClickListener, View
 	private float truncate(Float fullPriceFloat) {
 		String tempPrice = fullPriceFloat.toString();
 		Float truncatedFuelPrice;
-		if(tempPrice.indexOf(".") != -1) {
-			int decimalSpot = tempPrice.indexOf(".");
+		String endPortion = tempPrice.substring(tempPrice.lastIndexOf("."));
+		
+		if(endPortion.length() > 3) {	
+			Integer decimalSpot = tempPrice.indexOf(".");
 			tempPrice = tempPrice.substring(0, decimalSpot + 3);
 			truncatedFuelPrice = Float.parseFloat(tempPrice);
 		} else {
