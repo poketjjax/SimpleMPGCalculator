@@ -157,7 +157,7 @@ public class HideAds extends Fragment implements OnClickListener, OnIabPurchaseF
 	private void createAd() {
 		//set up the ad banner
 	    AdView adView = (AdView) getActivity().findViewById(R.id.adView);
-	    AdRequest adRequest = new AdRequest.Builder().addTestDevice("8A9DA1B236989CF0344431DAB1CF42FB").build();
+	    AdRequest adRequest = new AdRequest.Builder().build();
 	    adView.loadAd(adRequest);
 	}
 	
